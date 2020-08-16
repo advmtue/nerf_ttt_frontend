@@ -1,0 +1,28 @@
+@import './../../styles.scss';
+
+.wrap {
+	height: 100%;
+	margin: 5em 2em 0 2em;
+
+	#header h1 {
+		text-align: center;
+		color: $color-text-body;
+		font-family: "Roboto", sans-serif;
+		margin-bottom: 1em;
+		font-weight: 400;
+	}
+
+	input {
+		width: 100%;
+	}
+
+	p.formerror {
+		margin-top: 2em;
+		font-size: 20px;
+		text-align: center;
+	}
+
+	.button {
+		margin-top: 1em;
+	}
+}

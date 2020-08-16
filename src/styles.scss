@@ -1,1 +1,105 @@
 /* You can add global styles to this file, and also import other style files */
+$color-darkest: #1A1A1A;
+$color-background: #111111;
+$color-text-body: #FBFBFB;
+$color-text-placeholder: #B2B2B2;
+$color-red-deep: #9B2C2C;
+$color-blue-deep: #354E8C;
+$color-green-deep: #417A38;
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	background-color: $color-background;
+	min-height: 100%;
+	height: 100%;
+}
+
+h3 {
+	font-family: "PT Mono", monospace;
+	font-size: 24pt;
+}
+
+h5 {
+	font-family: "Roboto", sans-serif;
+	font-size: 16pt;
+}
+
+p, .button {
+	font-family: "Roboto", sans-serif;
+	font-size: 20pt;
+	color: $color-text-body;
+
+	&.errormsg {
+		color: $color-red-deep;
+	}
+
+	&.small {
+		font-size: 10pt;
+	}
+}
+
+label {
+	font-size: 10pt;
+	color: $color-text-body;
+	font-family: 'Roboto', sans-serif;
+}
+
+.green-bg { background-color: $color-green-deep; }
+.red-bg   { background-color: $color-red-deep; }
+.blue-bg  { background-color: $color-blue-deep; }
+
+div.container {
+	background-color: $color-darkest;
+	box-shadow: 0px 3px #000000;
+	border-radius: 10px;
+}
+
+input[type=text], input[type=password] {
+	background-color: $color-background;
+	border: 0;
+	border-bottom: 1px solid $color-text-body;
+	border-radius: 0;
+
+	color: $color-text-placeholder;
+	font-family: "Roboto", sans-serif;
+	font-size: 20px;
+	padding-left: 10px;
+	padding-bottom: 5px;
+
+	&.error {
+		border-bottom: 1px solid $color-red-deep;
+	}
+}
+
+form > div {
+	margin-top: 2em;
+}
+
+.button {
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	    user-select: none; /* Non-prefixed version, currently
+				  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}

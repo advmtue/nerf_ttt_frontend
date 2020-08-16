@@ -1,0 +1,44 @@
+@import './../../styles.scss';
+
+.wrap {
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+	height: 50px;
+	padding: 10px;
+
+	.hamburger {
+		width: 50px;
+		margin-right: 15px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		img {
+			width: 100%;
+			height: 80%;
+
+			/* lol */
+			filter: invert(90%) sepia(56%) saturate(16%) hue-rotate(38deg) brightness(109%) contrast(100%);
+		}
+	}
+
+	.title {
+		text-align: center;
+		flex-grow: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		p {
+			font-family: "PT Mono", monospace;
+			color: $color-text-body;
+			font-size: 30px;
+
+			span {
+				color: $color-red-deep;
+				padding-left: 0.2em;
+			}
+		}
+	}
+}
