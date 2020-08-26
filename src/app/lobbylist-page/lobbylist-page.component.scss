@@ -17,6 +17,14 @@ div.info {
 
 }
 
-.joinbutton {
+.buttons {
   margin-top: 1em;
+  display: flex;
+  align-items: stretch;
+
+  div {
+    flex-grow: 1;
+
+    &:nth-child(2) {margin-left: 1em;}
+  }
 }

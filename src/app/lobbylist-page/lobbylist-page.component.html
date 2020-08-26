@@ -2,21 +2,28 @@
   <h1 class="pagetitle">Lobbies</h1>
 </div>
 
-<div class="container pad" *ngFor='let lobby of lobbyList'>
+<div class="container pad" *ngIf='isEmpty(lobbyList)'>
+  <p>Waiting for an admin to start a lobby</p>
+</div>
+
+<div class="container pad" *ngFor='let lobby of lobbyList | keyvalue'>
   <div class="title">
     <div class="image">
       <img class="white-svg" src="assets/img/group.svg">
     </div>
     <div class="text">
-      <h3>{{ lobby.playerCount }}</h3>
+      <h3>{{ lobby.value.playerCount }}</h3>
     </div>
   </div>
   <div class="info">
-    <h3>{{ lobby.name }}</h3>
-    <a href='/profile/{{ lobby.ownerId }}'><p class="small">{{ lobby.ownerName }}</p></a>
+    <h3>{{ lobby.value.name }}</h3>
+    <a href='/profile/{{ lobby.value.ownerId }}'><p class="small">{{ lobby.value.ownerName }}</p></a>
   </div>
-  <div class="joinbutton">
+  <div class="buttons">
     <div class="button green-bg">Join</div>
+    <div class="button red-bg"
+      *ngIf='userIsAdmin()'
+      (click)='adminCloseLobby(lobby.value.gameId)'>Close</div>
   </div>
 </div>
 

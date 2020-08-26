@@ -16,11 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log('Triggered auth interceptor');
-
     if (this.tokenService.tokenStatus.value === 'ACQUIRED') {
-      console.log('Adding bearer token authorization');
-
       // Create new headers
       const modifiedHeaders = request.headers.set(
         'Authorization', `Bearer ${this.tokenService.token}`

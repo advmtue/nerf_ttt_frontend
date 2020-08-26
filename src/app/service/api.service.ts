@@ -24,4 +24,12 @@ export class ApiService {
 	postCreateLobby(lobbyInfo: {name: string}): Observable<LobbyMetadata> {
 		return this.httpClient.post<LobbyMetadata>(`${this.apiUrl}/lobby`, lobbyInfo);
 	}
+
+	getLobbies(): Observable<LobbyMetadata[]> {
+		return this.httpClient.get<LobbyMetadata[]>(`${this.apiUrl}/lobby`);
+	}
+
+	postCloseLobby(lobbyId: string): Observable<any> {
+		return this.httpClient.post(`${this.apiUrl}/admin/lobby/close`, lobbyId);
+	}
 }

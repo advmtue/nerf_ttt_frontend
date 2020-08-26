@@ -34,6 +34,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
 		ApiService,
 		TokenService,
 		{ provide: 'API_URL', useValue: 'http://localhost:8080' },
+		{ provide: 'WEBSOCKET_URL', useValue: 'ws://localhost:8080/socket' },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
 	],
 	bootstrap: [AppComponent]
