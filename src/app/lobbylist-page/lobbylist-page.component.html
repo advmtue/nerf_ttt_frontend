@@ -2,10 +2,28 @@
   <h1 class="pagetitle">Lobbies</h1>
 </div>
 
+<div class="container pad" *ngFor='let lobby of lobbyList'>
+  <div class="title">
+    <div class="image">
+      <img class="white-svg" src="assets/img/group.svg">
+    </div>
+    <div class="text">
+      <h3>{{ lobby.playerCount }}</h3>
+    </div>
+  </div>
+  <div class="info">
+    <h3>{{ lobby.name }}</h3>
+    <a href='/profile/{{ lobby.ownerId }}'><p class="small">{{ lobby.ownerName }}</p></a>
+  </div>
+  <div class="joinbutton">
+    <div class="button green-bg">Join</div>
+  </div>
+</div>
+
 <div class="container red-bg pad" *ngIf='userIsAdmin()'>
   <div class="title">
     <div class="image">
-      <img src="assets/img/dns.svg">
+      <img class="white-svg" src="assets/img/dns.svg">
     </div>
 
     <div class="text">
@@ -22,7 +40,7 @@
     </div>
     <div>
       <div 
-        class="button container"
+        class="button"
         (click)="submitCreateLobby()">Create</div>
     </div>
   </form>

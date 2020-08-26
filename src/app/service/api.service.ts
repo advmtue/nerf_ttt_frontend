@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import LobbyMetadata from 'src/types/LobbyMetadata';
 
 @Injectable({
 	providedIn: 'root'
@@ -20,7 +21,7 @@ export class ApiService {
 		return this.httpClient.post(`${this.apiUrl}/auth/changepassword`, loginInfo);
 	}
 
-	postCreateLobby(lobbyInfo: {name: string}): Observable<any> {
-		return this.httpClient.post(`${this.apiUrl}/lobby`, lobbyInfo);
+	postCreateLobby(lobbyInfo: {name: string}): Observable<LobbyMetadata> {
+		return this.httpClient.post<LobbyMetadata>(`${this.apiUrl}/lobby`, lobbyInfo);
 	}
 }

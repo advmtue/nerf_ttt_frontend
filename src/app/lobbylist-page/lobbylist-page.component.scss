@@ -5,6 +5,18 @@ div.title {
 
   .image img {
     margin-right: 0.5em;
-    filter: invert(90%) sepia(56%) saturate(16%) hue-rotate(38deg) brightness(109%) contrast(100%);
   }
+}
+
+div.info {
+  margin-top: 0.5em;
+
+  a {
+    text-align: right;
+  }
+
+}
+
+.joinbutton {
+  margin-top: 1em;
 }
