@@ -1,1 +1,29 @@
-<p>lobbylist-page works!</p>
+<div>
+  <h1 class="pagetitle">Lobbies</h1>
+</div>
+
+<div class="container red-bg pad" *ngIf='userIsAdmin()'>
+  <div class="title">
+    <div class="image">
+      <img src="assets/img/dns.svg">
+    </div>
+
+    <div class="text">
+      <h3>New Lobby</h3>
+    </div>
+  </div>
+  <form [formGroup]='createLobbyForm' class="mid-space">
+    <div>
+      <label>Lobby Name</label><br/>
+      <input
+        type="text"
+        placeholder="..."
+        [formControl]="createLobbyForm.controls['name']"/>
+    </div>
+    <div>
+      <div 
+        class="button container"
+        (click)="submitCreateLobby()">Create</div>
+    </div>
+  </form>
+</div>

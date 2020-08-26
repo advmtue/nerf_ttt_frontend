@@ -19,4 +19,8 @@ export class ApiService {
 	postChangePassword(loginInfo: {username: string, newPassword: string, defaultPassword: string}): Observable<any> {
 		return this.httpClient.post(`${this.apiUrl}/auth/changepassword`, loginInfo);
 	}
+
+	postCreateLobby(lobbyInfo: {name: string}): Observable<any> {
+		return this.httpClient.post(`${this.apiUrl}/lobby`, lobbyInfo);
+	}
 }
