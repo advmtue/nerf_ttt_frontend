@@ -15,6 +15,8 @@ import { LogoutPageComponent } from './logout-page/logout-page.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { GamepageComponent } from './gamepage/gamepage.component';
 
+import { environment } from '../environments/environment';
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -35,8 +37,8 @@ import { GamepageComponent } from './gamepage/gamepage.component';
 	providers: [
 		ApiService,
 		TokenService,
-		{ provide: 'API_URL', useValue: 'http://localhost:8080' },
-		{ provide: 'WEBSOCKET_URL', useValue: 'ws://localhost:8080/socket' },
+		{ provide: 'API_URL', useValue: environment.apiUrl },
+		{ provide: 'WEBSOCKET_URL', useValue: environment.websocketUrl },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
 	],
 	bootstrap: [AppComponent]
