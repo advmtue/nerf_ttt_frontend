@@ -6,6 +6,7 @@ import { IMessage } from '@stomp/stompjs';
 import LobbyMetadata from 'src/types/LobbyMetadata';
 import LobbyPlayer from 'src/types/LobbyPlayer';
 import { Observable } from 'rxjs';
+import LobbyPlayerChange from 'src/types/LobbyPlayerChange';
 
 @Injectable({
   providedIn: 'root'
@@ -64,8 +65,8 @@ export class SocketService {
     );
   }
 
-  watchUpdatedLobbies(): Observable<LobbyMetadata> {
-    return this.watchPath<LobbyMetadata>('/topic/lobbies/update');
+  watchUpdatedLobbies(): Observable<LobbyPlayerChange> {
+    return this.watchPath<LobbyPlayerChange>('/topic/lobbies/updated');
   }
 
   watchLobbyPlayerJoin(lobbyId: string): Observable<LobbyPlayer> {

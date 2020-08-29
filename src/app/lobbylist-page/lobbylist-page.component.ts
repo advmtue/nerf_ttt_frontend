@@ -6,6 +6,7 @@ import LobbyMetadata from 'src/types/LobbyMetadata';
 import { SocketService } from '../service/socket.service';
 import { Observable, Subscription } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
+import LobbyPlayerChange from 'src/types/LobbyPlayerChange';
 
 @Component({
   selector: 'app-lobbylist-page',
@@ -70,10 +71,12 @@ export class LobbylistPageComponent implements OnInit {
    * Update some lobby fields
    * @param message Message containing gameId and playerCount fields
    */
-  getUpdatedPlayerCount(lobbyInfo: LobbyMetadata) {
-    if (this.lobbyList[lobbyInfo.gameId] === undefined) return;
+  getUpdatedPlayerCount(lobbyInfo: LobbyPlayerChange) {
+    console.log(lobbyInfo);
+    if (this.lobbyList[lobbyInfo.lobbyId] === undefined) return;
 
-    this.lobbyList[lobbyInfo.gameId] = lobbyInfo;
+
+    this.lobbyList[lobbyInfo.lobbyId].playerCount = lobbyInfo.playerCount;
   }
 
   getLobbyList(): void {
