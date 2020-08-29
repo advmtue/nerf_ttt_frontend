@@ -13,6 +13,7 @@ import { TokenService } from './service/token.service';
 import { LobbylistPageComponent } from './lobbylist-page/lobbylist-page.component';
 import { LogoutPageComponent } from './logout-page/logout-page.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { GamepageComponent } from './gamepage/gamepage.component';
 
 @NgModule({
 	declarations: [
@@ -21,7 +22,8 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
 		LoginPageComponent,
 		PasswordresetPageComponent,
 		LobbylistPageComponent,
-		LogoutPageComponent
+		LogoutPageComponent,
+		GamepageComponent
 	],
 	imports: [
 		BrowserModule,

@@ -54,8 +54,7 @@ export class LobbylistPageComponent implements OnInit {
    * Recieve a new lobby through the observable
    * @param message Lobby information
    */
-  getNewLobby(message: IMessage) {
-    const lobbyInfo: LobbyMetadata = JSON.parse(message.body);
+  getNewLobby(lobbyInfo: LobbyMetadata) {
     this.lobbyList[lobbyInfo.gameId] = lobbyInfo;
   }
 
@@ -63,9 +62,7 @@ export class LobbylistPageComponent implements OnInit {
    * Receive the ID of a lobby that is no longer available
    * @param message Message containing lobby ID as the body
    */
-  getClosedLobby(message: IMessage) {
-    const lobbyId: string = message.body;
-
+  getClosedLobby(lobbyId: string) {
     delete this.lobbyList[lobbyId];
   }
 
@@ -73,12 +70,10 @@ export class LobbylistPageComponent implements OnInit {
    * Update some lobby fields
    * @param message Message containing gameId and playerCount fields
    */
-  getUpdatedPlayerCount(message: IMessage) {
-    const lobbyInfo: {gameId: string, playerCount: string} = JSON.parse(message.body);
-
+  getUpdatedPlayerCount(lobbyInfo: LobbyMetadata) {
     if (this.lobbyList[lobbyInfo.gameId] === undefined) return;
 
-    this.lobbyList[lobbyInfo.gameId].playerCount = parseInt(lobbyInfo.playerCount);
+    this.lobbyList[lobbyInfo.gameId] = lobbyInfo;
   }
 
   getLobbyList(): void {

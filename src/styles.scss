@@ -6,6 +6,7 @@ $color-text-placeholder: #B2B2B2;
 $color-red-deep: #9B2C2C;
 $color-blue-deep: #354E8C;
 $color-green-deep: #417A38;
+$color-yellow-deep: #B8802D;
 
 * {
 	margin: 0;
@@ -30,11 +31,24 @@ h1 {
 	margin-bottom: 1em;
 }
 
+h2 {
+	font-family: "Roboto", sans-serif;
+	font-size: 1.4em;
+	color: $color-text-body
+}
+
 h3 {
-	font-family: "Roboto", monospace;
+	font-family: "Roboto", sans-serif;
 	font-size: 1.3em;
 	color: $color-text-body;
 
+}
+
+h4 {
+	font-family: "Roboto", sans-serif;
+	font-size: 1em;
+	font-weight: 300;
+	color: $color-text-placeholder;
 }
 
 h5 {
@@ -71,6 +85,7 @@ label {
 .green-bg { background-color: $color-green-deep !important; }
 .red-bg   { background-color: $color-red-deep !important; }
 .blue-bg  { background-color: $color-blue-deep !important; }
+.yellow-bg { background-color: $color-yellow-deep !important; }
 
 /* Base container class */
 div.container {
@@ -78,6 +93,17 @@ div.container {
 	box-shadow: 0px 3px #000000;
 	border-radius: 10px;
 	margin-bottom: 1em;
+}
+
+.heading-with-image {
+	display: flex;
+	align-items: flex-start;
+	justify-items: center;
+	margin-bottom: 0.8em;
+
+	img {
+		margin-right: 0.5em;
+	}
 }
 
 /* Text/Password input styling */

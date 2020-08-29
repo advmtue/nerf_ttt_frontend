@@ -20,8 +20,8 @@
     <a href='/profile/{{ lobby.value.ownerId }}'><p class="small">{{ lobby.value.ownerName }}</p></a>
   </div>
   <div class="buttons">
-    <div class="button green-bg">Join</div>
-    <div class="button red-bg"
+    <div class="button green-bg" [routerLink]="['/game/' + lobby.value.gameId]">View</div>
+    <div class="button yellow-bg"
       *ngIf='userIsAdmin()'
       (click)='adminCloseLobby(lobby.value.gameId)'>Close</div>
   </div>
