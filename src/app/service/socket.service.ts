@@ -3,10 +3,6 @@ import { TokenService } from './token.service';
 import { RxStomp } from '@stomp/rx-stomp';
 import { map, pluck, tap } from 'rxjs/operators';
 import { IMessage } from '@stomp/stompjs';
-import LobbyMetadata from 'src/types/LobbyMetadata';
-import LobbyPlayer from 'src/types/LobbyPlayer';
-import { Observable } from 'rxjs';
-import LobbyPlayerChange from 'src/types/LobbyPlayerChange';
 
 @Injectable({
   providedIn: 'root'
