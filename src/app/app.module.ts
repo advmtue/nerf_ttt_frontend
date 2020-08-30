@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { environment } from '../environments/environment';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -13,9 +15,13 @@ import { TokenService } from './service/token.service';
 import { LobbylistPageComponent } from './lobbylist-page/lobbylist-page.component';
 import { LogoutPageComponent } from './logout-page/logout-page.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
-import { GamepageComponent } from './gamepage/gamepage.component';
 
-import { environment } from '../environments/environment';
+// Game states
+import { LobbyPageComponent } from './game-all/lobby-page/lobby-page.component';
+import { IngamePageComponent } from './game-all/ingame-page/ingame-page.component';
+import { PregamePageComponent } from './game-all/pregame-page/pregame-page.component';
+import { PostgamePageComponent } from './game-all/postgame-page/postgame-page.component';
+import { GamecontainerComponent } from './game-all/gamecontainer/gamecontainer.component';
 
 @NgModule({
 	declarations: [
@@ -25,7 +31,11 @@ import { environment } from '../environments/environment';
 		PasswordresetPageComponent,
 		LobbylistPageComponent,
 		LogoutPageComponent,
-		GamepageComponent
+		LobbyPageComponent,
+		IngamePageComponent,
+		PregamePageComponent,
+		PostgamePageComponent,
+		GamecontainerComponent
 	],
 	imports: [
 		BrowserModule,

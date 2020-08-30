@@ -1,0 +1,9 @@
+<div *ngIf="gameData; else noData">
+  <div [ngSwitch]="gameData.status">
+    <app-lobbypage *ngSwitchCase="'LOBBY'" [lobbyMetadata]='gameData'></app-lobbypage>
+  </div>
+</div>
+
+<ng-template #noData>
+  <p>Loading lobby information...</p>
+</ng-template>

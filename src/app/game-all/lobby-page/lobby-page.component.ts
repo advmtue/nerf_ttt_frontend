@@ -1,19 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../service/api.service';
-import { SocketService } from '../service/socket.service';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+// Services
+import { ApiService } from '../../service/api.service';
+import { SocketService } from '../../service/socket.service';
+import { TokenService } from '../../service/token.service';
+// Types
 import LobbyMetadata from 'src/types/LobbyMetadata';
 import LobbyPlayer from 'src/types/LobbyPlayer';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TokenService } from '../service/token.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-gamepage',
-  templateUrl: './gamepage.component.html',
-  styleUrls: ['./gamepage.component.scss']
+  selector: 'app-lobbypage',
+  templateUrl: './lobby-page.component.html',
+  styleUrls: ['./lobby-page.component.scss']
 })
-export class GamepageComponent implements OnInit {
-  lobbyMetadata: LobbyMetadata = undefined;
+export class LobbyPageComponent implements OnInit, OnDestroy {
+  @Input() lobbyMetadata: LobbyMetadata = undefined;
   lobbyPlayers: LobbyPlayer[] = [];
+
+  private playerJoinSub: Subscription;
+  private playerLeaveSub: Subscription;
+  private playerReadySub: Subscription;
+  private playerUnreadySub: Subscription;
+  private lobbyClosedSub: Subscription;
 
   constructor(
     private apiService: ApiService,
@@ -24,50 +33,48 @@ export class GamepageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.initializeGamestate(params['gameid']);
+    const lobbyId = this.lobbyMetadata.gameId;
+
+    // Player Join
+    this.playerJoinSub = this.socketService
+      .watchPath<LobbyPlayer>(`/topic/lobby/${lobbyId}/playerjoin`)
+      .subscribe(this.onPlayerJoin.bind(this));
+
+    // Player Leave
+    this.playerLeaveSub = this.socketService
+      .watchPath<LobbyPlayer>(`/topic/lobby/${lobbyId}/playerleave`)
+      .subscribe(this.onPlayerLeave.bind(this));
+
+    // Player Ready
+    this.playerReadySub = this.socketService
+      .watchPath<LobbyPlayer>(`/topic/lobby/${lobbyId}/playerunready`)
+      .subscribe(this.onPlayerUnready.bind(this));
+
+    // Player Unready
+    this.playerUnreadySub = this.socketService
+      .watchPath<LobbyPlayer>(`/topic/lobby/${lobbyId}/playerready`)
+      .subscribe(this.onPlayerReady.bind(this));
+
+    // Lobby closed
+    this.lobbyClosedSub = this.socketService
+      .watchPath<{lobbyId: string}>(`/topic/lobby/${lobbyId}/closed`)
+      .subscribe(this.onLobbyClosed.bind(this));
+
+    // Pull lobby players
+    this.apiService.getLobbyPlayers(lobbyId).subscribe((p) => {
+      this.lobbyPlayers = p;
+
+      this.isLocalPlayerJoined();
+      this.isLocalPlayerReady();
     });
   }
 
-  /**
-   * Initialize the gamestate, pulling lobby metadata
-   * @param lobbyId 
-   */
-  initializeGamestate(lobbyId: string) {
-    this.apiService.getLobby(lobbyId).subscribe((l) => {
-      this.lobbyMetadata = l;
-
-      // If game state === LOBBY, pull players
-      if (this.lobbyMetadata.status === 'LOBBY') {
-
-        // Player Join
-        this.socketService.watchLobbyPlayerJoin(lobbyId)
-          .subscribe(this.onPlayerJoin.bind(this));
-
-        // Player Leave
-        this.socketService.watchLobbyPlayerLeave(lobbyId)
-          .subscribe(this.onPlayerLeave.bind(this));
-
-        // Player Ready
-        this.socketService.watchLobbyPlayerUnready(lobbyId)
-          .subscribe(this.onPlayerUnready.bind(this));
-        
-        // Player Unready
-        this.socketService.watchLobbyPlayerReady(lobbyId)
-          .subscribe(this.onPlayerReady.bind(this));
-
-        this.socketService.watchLobbyClose(lobbyId)
-          .subscribe(this.onLobbyClosed.bind(this));
-
-        // Pull lobby players
-        this.apiService.getLobbyPlayers(lobbyId).subscribe((p) => {
-          this.lobbyPlayers = p;
-
-          this.isLocalPlayerJoined();
-          this.isLocalPlayerReady();
-        });
-      }
-    });
+  ngOnDestroy(): void {
+    this.playerReadySub.unsubscribe();
+    this.playerUnreadySub.unsubscribe();
+    this.playerJoinSub.unsubscribe();
+    this.playerLeaveSub.unsubscribe();
+    this.lobbyClosedSub.unsubscribe();
   }
 
   /**

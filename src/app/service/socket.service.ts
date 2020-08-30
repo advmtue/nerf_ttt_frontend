@@ -47,7 +47,7 @@ export class SocketService {
   }
 
   // Type generic function for watching a topic
-  private watchPath<T>(location: string) {
+  public watchPath<T>(location: string) {
     return this.stomp.watch(location).pipe(
       pluck<IMessage, string>('body'),         // Take .body from IMessage
       map<string, T>(b => JSON.parse(b) as T), // Parse body json to T
@@ -67,25 +67,5 @@ export class SocketService {
 
   watchUpdatedLobbies(): Observable<LobbyPlayerChange> {
     return this.watchPath<LobbyPlayerChange>('/topic/lobbies/updated');
-  }
-
-  watchLobbyPlayerJoin(lobbyId: string): Observable<LobbyPlayer> {
-    return this.watchPath<LobbyPlayer>(`/topic/lobby/${lobbyId}/playerjoin`);
-  }
-
-  watchLobbyPlayerLeave(lobbyId: string): Observable<LobbyPlayer> {
-    return this.watchPath<LobbyPlayer>(`/topic/lobby/${lobbyId}/playerleave`);
-  }
-
-  watchLobbyPlayerReady(lobbyId: string): Observable<LobbyPlayer> {
-    return this.watchPath<LobbyPlayer>(`/topic/lobby/${lobbyId}/playerready`);
-  }
-
-  watchLobbyClose(lobbyId: string): Observable<{lobbyId: string}> {
-    return this.watchPath<{lobbyId: string}>(`/topic/lobby/${lobbyId}/closed`);
-  }
-
-  watchLobbyPlayerUnready(lobbyId: string): Observable<LobbyPlayer> {
-    return this.watchPath<LobbyPlayer>(`/topic/lobby/${lobbyId}/playerunready`);
   }
 }
