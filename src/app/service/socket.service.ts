@@ -33,7 +33,7 @@ export class SocketService {
         heartbeatIncoming: 20000,
         heartbeatOutgoing: 10000,
         reconnectDelay: 200
-      })
+      });
 
       this.stomp.activate();
     } else if (tokenStatus === 'NONE') {
@@ -48,6 +48,6 @@ export class SocketService {
       pluck<IMessage, string>('body'),         // Take .body from IMessage
       map<string, T>(b => JSON.parse(b) as T), // Parse body json to T
       tap<T>(console.log)
-    )
+    );
   }
 }

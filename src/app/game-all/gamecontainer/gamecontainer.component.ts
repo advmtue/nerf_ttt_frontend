@@ -19,11 +19,11 @@ export class GamecontainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const gameId = params['gameid'];
+      const gameId = params.gameid;
       console.log(`Found gameId = ${gameId}`);
 
       this.initializeGamestate(gameId);
-    })
+    });
   }
 
   private initializeGamestate(gameId: string) {

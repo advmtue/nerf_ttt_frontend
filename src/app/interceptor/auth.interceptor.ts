@@ -20,10 +20,10 @@ export class AuthInterceptor implements HttpInterceptor {
       // Create new headers
       const modifiedHeaders = request.headers.set(
         'Authorization', `Bearer ${this.tokenService.token}`
-      )
+      );
 
       // Clone the request
-      let modifiedRequest = request.clone({headers: modifiedHeaders});
+      const modifiedRequest = request.clone({headers: modifiedHeaders});
 
       // Handle it
       return next.handle(modifiedRequest);

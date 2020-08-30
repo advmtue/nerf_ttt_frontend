@@ -1,15 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-	selector: 'app-navbar',
-	templateUrl: './navbar.component.html',
-	styleUrls: ['./navbar.component.scss']
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-	@Input('showMenuButton') showMenuButton: boolean;
+  @Input() showMenuButton: boolean;
 
-	constructor() { }
+  constructor() { }
 
-	ngOnInit(): void {
-	}
+  ngOnInit(): void {
+  }
 }

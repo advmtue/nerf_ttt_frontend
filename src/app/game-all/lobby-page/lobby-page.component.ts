@@ -78,8 +78,8 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
   getLocalPlayer() {
     const player = this.lobbyPlayers.find(
       p => p.playerId === this.tokenService.getUserId()
-    )
-    
+    );
+
     return player === undefined ? null : player;
   }
 
@@ -127,7 +127,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
     this.lobbyPlayers = this.lobbyPlayers.filter(p => p.playerId !== playerInfo.playerId);
 
     this.lobbyPlayers.push(playerInfo);
-    this.isLocalPlayerJoined()
+    this.isLocalPlayerJoined();
   }
 
   /**
@@ -188,7 +188,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * Attempt to set ready status to 'unready'
    */
   setUnready() {
-    this.apiService.setLobbyPlayerUnready(this.lobbyMetadata.gameId).subscribe()
+    this.apiService.setLobbyPlayerUnready(this.lobbyMetadata.gameId).subscribe();
   }
 
   /**

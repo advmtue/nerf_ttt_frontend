@@ -1,14 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TokenService } from '../service/token.service';
 import { ApiService } from '../service/api.service';
-import { FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import GameMetadata from 'src/types/GameMetadata';
 import { SocketService } from '../service/socket.service';
-import { Observable, Subscription } from 'rxjs';
-import { IMessage } from '@stomp/stompjs';
+import { Subscription } from 'rxjs';
 import LobbyPlayerChange from 'src/types/LobbyPlayerChange';
 import { pluck } from 'rxjs/operators';
-import LobbyPlayer from 'src/types/LobbyPlayer';
 
 @Component({
   selector: 'app-lobbylist-page',
@@ -20,7 +18,7 @@ export class LobbylistPageComponent implements OnInit, OnDestroy {
   createLobbyForm: FormGroup;
   showCreateFormInvalid = false;
   lobbyList: {[key: string]: GameMetadata} = {};
-  
+
   // All socket subscriptions
   private subscriptions: Subscription = new Subscription();
 
@@ -32,8 +30,8 @@ export class LobbylistPageComponent implements OnInit, OnDestroy {
   ) {
     // Create form controls
     this.createLobbyForm = formbuilder.group({
-      'name': ['', Validators.required]
-    })
+      name: ['', Validators.required]
+    });
   }
 
   ngOnInit() {
@@ -85,7 +83,7 @@ export class LobbylistPageComponent implements OnInit, OnDestroy {
    * @param message Message containing gameId and playerCount fields
    */
   getUpdatedPlayerCount(lobbyInfo: LobbyPlayerChange) {
-    if (this.lobbyList[lobbyInfo.lobbyId] === undefined) return;
+    if (this.lobbyList[lobbyInfo.lobbyId] === undefined) { return; }
 
 
     this.lobbyList[lobbyInfo.lobbyId].playerCount = lobbyInfo.playerCount;
@@ -99,8 +97,8 @@ export class LobbylistPageComponent implements OnInit, OnDestroy {
       .subscribe((lobbies: GameMetadata[]) => {
         lobbies.forEach((lobby: GameMetadata) => {
           this.lobbyList[lobby.gameId] = lobby;
-        })
-      })
+        });
+      });
   }
 
   /**

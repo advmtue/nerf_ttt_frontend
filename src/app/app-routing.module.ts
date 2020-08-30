@@ -8,16 +8,16 @@ import { LogoutPageComponent } from './logout-page/logout-page.component';
 import { GamecontainerComponent } from './game-all/gamecontainer/gamecontainer.component';
 
 const routes: Routes = [
-	{ path: 'login', component: LoginPageComponent },
-	{ path: 'passwordreset', component: PasswordresetPageComponent },
-	{ path: 'lobbies', component: LobbylistPageComponent },
-	{ path: 'logout', component: LogoutPageComponent },
-	{ path: 'game/:gameid', component: GamecontainerComponent },
-	{ path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: 'login', component: LoginPageComponent },
+  { path: 'passwordreset', component: PasswordresetPageComponent },
+  { path: 'lobbies', component: LobbylistPageComponent },
+  { path: 'logout', component: LogoutPageComponent },
+  { path: 'game/:gameid', component: GamecontainerComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes)],
-	exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }
