@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TokenService } from '../service/token.service';
 import { ApiService } from '../service/api.service';
 import { FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
@@ -13,7 +13,7 @@ import LobbyPlayerChange from 'src/types/LobbyPlayerChange';
   templateUrl: './lobbylist-page.component.html',
   styleUrls: ['./lobbylist-page.component.scss']
 })
-export class LobbylistPageComponent implements OnInit {
+export class LobbylistPageComponent implements OnInit, OnDestroy {
 
   createLobbyForm: FormGroup;
   showCreateFormInvalid = false;
@@ -45,7 +45,7 @@ export class LobbylistPageComponent implements OnInit {
     this.onLobbyUpdated = this.socketService.watchUpdatedLobbies().subscribe(this.getUpdatedPlayerCount.bind(this));
   }
 
-  noOnDestroy() {
+  ngOnDestroy() {
     this.onNewLobby.unsubscribe();
     this.onClosedLobby.unsubscribe();
     this.onLobbyUpdated.unsubscribe();
@@ -72,7 +72,6 @@ export class LobbylistPageComponent implements OnInit {
    * @param message Message containing gameId and playerCount fields
    */
   getUpdatedPlayerCount(lobbyInfo: LobbyPlayerChange) {
-    console.log(lobbyInfo);
     if (this.lobbyList[lobbyInfo.lobbyId] === undefined) return;
 
 
@@ -96,7 +95,6 @@ export class LobbylistPageComponent implements OnInit {
     // If the form is invalid, show the errors
     // The only error should be 'required' field
     if (!this.createLobbyForm.valid) {
-      console.log('Form is invalid');
       this.showCreateFormInvalid = true;
       return;
     }
@@ -105,17 +103,14 @@ export class LobbylistPageComponent implements OnInit {
     this.showCreateFormInvalid = false;
 
     // Make the API call
-    this.apiService.postCreateLobby(this.createLobbyForm.value)
-    .subscribe(lobby => {
-      console.log(lobby);
-    });
+    this.apiService.postCreateLobby(this.createLobbyForm.value).subscribe();
 
     // Reset form controls
     this.createLobbyForm.reset();
   }
 
   adminCloseLobby(lobbyId: string) {
-    this.apiService.postCloseLobby(lobbyId).subscribe(console.log);
+    this.apiService.postCloseLobby(lobbyId).subscribe();
   }
 
   isEmpty(lobbyList: {[key: string]: LobbyMetadata}) {
