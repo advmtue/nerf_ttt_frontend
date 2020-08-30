@@ -54,18 +54,4 @@ export class SocketService {
       tap<T>(console.log)
     )
   }
-
-  watchNewLobbies(): Observable<LobbyMetadata> {
-    return this.watchPath<LobbyMetadata>('/topic/lobbies/new');
-  }
-
-  watchClosedLobbies(): Observable<string> {
-    return this.watchPath<{lobbyId: string}>('/topic/lobbies/closed').pipe(
-      pluck('lobbyId')
-    );
-  }
-
-  watchUpdatedLobbies(): Observable<LobbyPlayerChange> {
-    return this.watchPath<LobbyPlayerChange>('/topic/lobbies/updated');
-  }
 }
