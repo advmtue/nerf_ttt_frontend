@@ -24,33 +24,33 @@ import { PostgamePageComponent } from './game-all/postgame-page/postgame-page.co
 import { GamecontainerComponent } from './game-all/gamecontainer/gamecontainer.component';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		NavbarComponent,
-		LoginPageComponent,
-		PasswordresetPageComponent,
-		LobbylistPageComponent,
-		LogoutPageComponent,
-		LobbyPageComponent,
-		IngamePageComponent,
-		PregamePageComponent,
-		PostgamePageComponent,
-		GamecontainerComponent
-	],
-	imports: [
-		BrowserModule,
-		AppRoutingModule,
-		FormsModule,
-		ReactiveFormsModule,
-		HttpClientModule,
-	],
-	providers: [
-		ApiService,
-		TokenService,
-		{ provide: 'API_URL', useValue: environment.apiUrl },
-		{ provide: 'WEBSOCKET_URL', useValue: environment.websocketUrl },
-		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-	],
-	bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    LoginPageComponent,
+    PasswordresetPageComponent,
+    LobbylistPageComponent,
+    LogoutPageComponent,
+    LobbyPageComponent,
+    IngamePageComponent,
+    PregamePageComponent,
+    PostgamePageComponent,
+    GamecontainerComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
+  providers: [
+    ApiService,
+    TokenService,
+    { provide: 'API_URL', useValue: environment.apiUrl },
+    { provide: 'WEBSOCKET_URL', useValue: environment.websocketUrl },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

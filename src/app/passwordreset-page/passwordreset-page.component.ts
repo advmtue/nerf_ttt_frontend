@@ -47,7 +47,7 @@ export class PasswordresetPageComponent implements OnInit {
 		this.errorMsg = '';
 		this.showValidations = false;
 
-		this.apiService.postChangePassword(this.resetForm.value)
+		this.apiService.changePassword(this.resetForm.value)
 			.subscribe({
 				  next: (data) => {
 					  if (data.token) {

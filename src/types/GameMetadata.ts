@@ -1,4 +1,4 @@
-export default interface LobbyMetadata {
+export default interface GameMetadata {
   gameId: string;
   name: string;
   dateCreated: string;

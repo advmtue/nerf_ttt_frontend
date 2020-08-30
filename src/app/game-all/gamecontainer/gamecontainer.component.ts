@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/service/api.service';
-import LobbyMetadata from 'src/types/LobbyMetadata';
+import GameMetadata from 'src/types/GameMetadata';
 
 @Component({
   selector: 'app-gamecontainer',
@@ -9,7 +9,7 @@ import LobbyMetadata from 'src/types/LobbyMetadata';
   styleUrls: ['./gamecontainer.component.scss']
 })
 export class GamecontainerComponent implements OnInit {
-  public gameData: LobbyMetadata = null;
+  public gameData: GameMetadata = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,7 +27,7 @@ export class GamecontainerComponent implements OnInit {
   }
 
   private initializeGamestate(gameId: string) {
-    this.apiService.getLobby(gameId).subscribe(lobbyData => {
+    this.apiService.getGameMetadata(gameId).subscribe(lobbyData => {
       if (lobbyData.status === 'CLOSED') {
         this.router.navigate(['/']);
         return;

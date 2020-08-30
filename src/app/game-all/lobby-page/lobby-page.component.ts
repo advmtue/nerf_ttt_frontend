@@ -5,9 +5,10 @@ import { ApiService } from '../../service/api.service';
 import { SocketService } from '../../service/socket.service';
 import { TokenService } from '../../service/token.service';
 // Types
-import LobbyMetadata from 'src/types/LobbyMetadata';
+import GameMetadata from 'src/types/GameMetadata';
 import LobbyPlayer from 'src/types/LobbyPlayer';
 import { Observable, Subscription } from 'rxjs';
+import { pluck } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lobbypage',
@@ -15,7 +16,7 @@ import { Observable, Subscription } from 'rxjs';
   styleUrls: ['./lobby-page.component.scss']
 })
 export class LobbyPageComponent implements OnInit, OnDestroy {
-  @Input() lobbyMetadata: LobbyMetadata = undefined;
+  @Input() lobbyMetadata: GameMetadata = undefined;
   lobbyPlayers: LobbyPlayer[] = [];
 
   private subscriptions = new Subscription();
@@ -54,6 +55,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
     // Lobby closed
     this.subscriptions.add(
       this.socketService.watchPath<{lobbyId: string}>(`/topic/lobby/${lobbyId}/closed`)
+        .pipe(pluck('lobbyId'))
         .subscribe(this.onLobbyClosed.bind(this)));
 
     // Pull lobby players
@@ -83,6 +85,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
   /**
    * Determine if the localPlayer has joined the lobby
+   *
    * @returns True if the player is found in the playerlist
    */
   isLocalPlayerJoined() {
@@ -197,6 +200,6 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * As an admin, attempt to close the lobby.
    */
   adminCloseLobby() {
-    this.apiService.postCloseLobby(this.lobbyMetadata.gameId).subscribe(console.log);
+    this.apiService.closeLobby(this.lobbyMetadata.gameId).subscribe();
   }
 }

@@ -44,7 +44,7 @@ export class LoginPageComponent implements OnInit {
 		this.showError = false;
 
 		// Make an API call
-		this.apiService.postLogin(this.loginForm.value)
+		this.apiService.login(this.loginForm.value)
 			.subscribe({
 				next: (tokenData) => {
 					if (tokenData.resetPassword) {

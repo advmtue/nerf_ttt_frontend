@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import LobbyMetadata from 'src/types/LobbyMetadata';
+import GameMetadata from 'src/types/GameMetadata';
 import LobbyPlayer from 'src/types/LobbyPlayer';
 
 @Injectable({
@@ -14,28 +14,28 @@ export class ApiService {
 		@Inject('API_URL') private apiUrl: string
 	) { }
 
-	postLogin(loginInfo: {username: string, password: string}): Observable<any> {
+	login(loginInfo: {username: string, password: string}): Observable<any> {
 		return this.httpClient.post(`${this.apiUrl}/auth/login`, loginInfo);
 	}
 
-	postChangePassword(loginInfo: {username: string, newPassword: string, defaultPassword: string}): Observable<any> {
+	changePassword(loginInfo: {username: string, newPassword: string, defaultPassword: string}): Observable<any> {
 		return this.httpClient.post(`${this.apiUrl}/auth/changepassword`, loginInfo);
 	}
 
-	postCreateLobby(lobbyInfo: {name: string}): Observable<LobbyMetadata> {
-		return this.httpClient.post<LobbyMetadata>(`${this.apiUrl}/lobby`, lobbyInfo);
+	createLobby(lobbyInfo: {name: string}): Observable<GameMetadata> {
+		return this.httpClient.post<GameMetadata>(`${this.apiUrl}/lobby`, lobbyInfo);
 	}
 
-	getLobbies(): Observable<LobbyMetadata[]> {
-		return this.httpClient.get<LobbyMetadata[]>(`${this.apiUrl}/lobby`);
+	getLobbies(): Observable<GameMetadata[]> {
+		return this.httpClient.get<GameMetadata[]>(`${this.apiUrl}/lobby`);
 	}
 
-	postCloseLobby(lobbyId: string): Observable<{lobbyId: string}> {
+	closeLobby(lobbyId: string): Observable<{lobbyId: string}> {
 		return this.httpClient.post<{lobbyId: string}>(`${this.apiUrl}/admin/lobby/close`, lobbyId);
 	}
 
-	getLobby(lobbyId: string): Observable<LobbyMetadata> {
-		return this.httpClient.get<LobbyMetadata>(`${this.apiUrl}/lobby/${lobbyId}`);
+	getGameMetadata(lobbyId: string): Observable<GameMetadata> {
+		return this.httpClient.get<GameMetadata>(`${this.apiUrl}/lobby/${lobbyId}`);
 	}
 
 	getLobbyPlayers(lobbyId: string): Observable<LobbyPlayer[]> {

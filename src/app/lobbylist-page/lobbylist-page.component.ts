@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TokenService } from '../service/token.service';
 import { ApiService } from '../service/api.service';
 import { FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
-import LobbyMetadata from 'src/types/LobbyMetadata';
+import GameMetadata from 'src/types/GameMetadata';
 import { SocketService } from '../service/socket.service';
 import { Observable, Subscription } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
@@ -19,7 +19,7 @@ export class LobbylistPageComponent implements OnInit, OnDestroy {
 
   createLobbyForm: FormGroup;
   showCreateFormInvalid = false;
-  lobbyList: {[key: string]: LobbyMetadata} = {};
+  lobbyList: {[key: string]: GameMetadata} = {};
   
   // All socket subscriptions
   private subscriptions: Subscription = new Subscription();
@@ -42,7 +42,7 @@ export class LobbylistPageComponent implements OnInit, OnDestroy {
 
     // New lobbies
     this.subscriptions.add(
-      this.socketService.watchPath<LobbyMetadata>('/topic/lobbies/new')
+      this.socketService.watchPath<GameMetadata>('/topic/lobbies/new')
       .subscribe(this.getNewLobby.bind(this)));
 
     // Closed lobbies
@@ -68,7 +68,7 @@ export class LobbylistPageComponent implements OnInit, OnDestroy {
    * Recieve a new lobby through the observable
    * @param message Lobby information
    */
-  getNewLobby(lobbyInfo: LobbyMetadata) {
+  getNewLobby(lobbyInfo: GameMetadata) {
     this.lobbyList[lobbyInfo.gameId] = lobbyInfo;
   }
 
@@ -96,8 +96,8 @@ export class LobbylistPageComponent implements OnInit, OnDestroy {
    */
   getLobbyList(): void {
     this.apiService.getLobbies()
-      .subscribe((lobbies: LobbyMetadata[]) => {
-        lobbies.forEach((lobby: LobbyMetadata) => {
+      .subscribe((lobbies: GameMetadata[]) => {
+        lobbies.forEach((lobby: GameMetadata) => {
           this.lobbyList[lobby.gameId] = lobby;
         })
       })
@@ -125,7 +125,7 @@ export class LobbylistPageComponent implements OnInit, OnDestroy {
     this.showCreateFormInvalid = false;
 
     // Make the API call
-    this.apiService.postCreateLobby(this.createLobbyForm.value).subscribe();
+    this.apiService.createLobby(this.createLobbyForm.value).subscribe();
 
     // Reset form controls
     this.createLobbyForm.reset();
@@ -136,14 +136,14 @@ export class LobbylistPageComponent implements OnInit, OnDestroy {
    * @param lobbyId Lobby ID
    */
   adminCloseLobby(lobbyId: string) {
-    this.apiService.postCloseLobby(lobbyId).subscribe();
+    this.apiService.closeLobby(lobbyId).subscribe();
   }
 
   /**
    * Helper function for checking if an object is empty
    * @param lobbyList An object
    */
-  isEmpty(lobbyList: {[key: string]: LobbyMetadata}) {
+  isEmpty(lobbyList: {[key: string]: GameMetadata}) {
     return Object.keys(lobbyList).length === 0;
   }
 }
