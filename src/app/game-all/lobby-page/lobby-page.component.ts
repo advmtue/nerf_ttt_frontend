@@ -194,7 +194,9 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
   /**
    * As the lobby owner, attempt to start the lobby.
    */
-  ownerStartLobby() {}
+  ownerStartLobby() {
+    this.apiService.startLobby(this.lobbyMetadata.gameId).subscribe(console.log);
+  }
 
   /**
    * As an admin, attempt to close the lobby.

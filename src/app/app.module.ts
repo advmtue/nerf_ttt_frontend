@@ -22,6 +22,8 @@ import { IngamePageComponent } from './game-all/ingame-page/ingame-page.componen
 import { PregamePageComponent } from './game-all/pregame-page/pregame-page.component';
 import { PostgamePageComponent } from './game-all/postgame-page/postgame-page.component';
 import { GamecontainerComponent } from './game-all/gamecontainer/gamecontainer.component';
+import { LaunchingPageComponent } from './game-all/launching-page/launching-page.component';
+import { GameMetadataViewComponent } from './game-metadata-view/game-metadata-view.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { GamecontainerComponent } from './game-all/gamecontainer/gamecontainer.c
     IngamePageComponent,
     PregamePageComponent,
     PostgamePageComponent,
-    GamecontainerComponent
+    GamecontainerComponent,
+    LaunchingPageComponent,
+    GameMetadataViewComponent
   ],
   imports: [
     BrowserModule,

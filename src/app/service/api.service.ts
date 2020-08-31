@@ -58,4 +58,7 @@ export class ApiService {
     return this.httpClient.patch<boolean>(`${this.apiUrl}/lobby/${lobbyId}/unready`, {});
   }
 
+  startLobby(lobbyId: string): Observable<boolean> {
+    return this.httpClient.patch<boolean>(`${this.apiUrl}/lobby/${lobbyId}/start`, {});
+  }
 }
