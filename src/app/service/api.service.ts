@@ -5,6 +5,7 @@ import GameMetadata from 'src/types/GameMetadata';
 import LobbyPlayer from 'src/types/LobbyPlayer';
 import Profile from 'src/types/UserProfile';
 import LobbyMetadata from 'src/types/LobbyMetadata';
+import { pluck } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -53,11 +54,11 @@ export class ApiService {
   }
 
   joinLobby(lobbyId: string): Observable<boolean> {
-    return this.httpClient.patch<boolean>(`${this.apiUrl}/lobby/${lobbyId}/join`, {});
+    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/lobby/${lobbyId}/join`).pipe<boolean>(pluck('success'));
   }
 
   leaveLobby(lobbyId: string): Observable<boolean> {
-    return this.httpClient.patch<boolean>(`${this.apiUrl}/lobby/${lobbyId}/leave`, {});
+    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/lobby/${lobbyId}/leave`).pipe<boolean>(pluck('success'));
   }
 
   setLobbyPlayerReady(lobbyId: string): Observable<boolean> {

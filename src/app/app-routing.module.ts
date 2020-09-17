@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: "landing", component: LandingPageComponent, canActivate: [AuthenticatedGuard] },
   { path: "lobbysearch", component: JoinLobbyPageComponent, canActivate: [AuthenticatedGuard] },
   { path: "createlobby", component: CreateLobbyPageComponent, canActivate: [AuthenticatedGuard] },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/landing', pathMatch: 'full' }
 ];
 
 @NgModule({

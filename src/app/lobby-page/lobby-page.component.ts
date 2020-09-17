@@ -98,7 +98,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    */
   getLocalPlayer() {
     const player = this.lobbyPlayers.find(
-      p => p.playerId === this.userService.id
+      p => p.userId === this.userService.id
     );
 
     return player === undefined ? null : player;
@@ -127,7 +127,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * @param playerInfo Information of the ready player
    */
   onPlayerReady(playerInfo: LobbyPlayer) {
-    const idx = this.lobbyPlayers.findIndex(player => player.playerId === playerInfo.playerId);
+    const idx = this.lobbyPlayers.findIndex(player => player.userId === playerInfo.userId);
     this.lobbyPlayers[idx].ready = true;
   }
 
@@ -136,7 +136,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * @param playerInfo Information of the unready player
    */
   onPlayerUnready(playerInfo: LobbyPlayer) {
-    const idx = this.lobbyPlayers.findIndex(player => player.playerId === playerInfo.playerId);
+    const idx = this.lobbyPlayers.findIndex(player => player.userId === playerInfo.userId);
     this.lobbyPlayers[idx].ready = false;
   }
 
@@ -145,7 +145,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * @param playerInfo Information of the joining player
    */
   onPlayerJoin(playerInfo: LobbyPlayer) {
-    this.lobbyPlayers = this.lobbyPlayers.filter(p => p.playerId !== playerInfo.playerId);
+    this.lobbyPlayers = this.lobbyPlayers.filter(p => p.userId !== playerInfo.userId);
 
     this.lobbyPlayers.push(playerInfo);
     this.isLocalPlayerJoined();
@@ -156,7 +156,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * @param playerInfo Information of leaving player
    */
   onPlayerLeave(playerInfo: LobbyPlayer) {
-    this.lobbyPlayers = this.lobbyPlayers.filter(p => p.playerId !== playerInfo.playerId);
+    this.lobbyPlayers = this.lobbyPlayers.filter(p => p.userId !== playerInfo.userId);
     this.isLocalPlayerJoined();
   }
 

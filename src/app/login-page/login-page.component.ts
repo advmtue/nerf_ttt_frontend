@@ -30,7 +30,7 @@ export class LoginPageComponent implements OnInit {
     // Subscribe to user authentication level
     this.userService.authStatus.subscribe(newStatus => {
       if (newStatus === 'FULL') {
-        this.router.navigate(['/lobbies']);
+        this.router.navigate(['/']);
       }
     })
   }
