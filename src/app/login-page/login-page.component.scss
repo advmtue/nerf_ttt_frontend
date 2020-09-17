@@ -1,24 +1,24 @@
 @import './../../styles.scss';
 
-.wrap {
+:host {
 	height: 100%;
-	margin: 5em 1em 0 1em;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: center;
+}
 
-	#header h1 {
-		text-align: center;
-		color: $color-text-body;
-		font-family: "Roboto", sans-serif;
-		margin-bottom: 1em;
-		font-weight: 400;
-	}
+.wrap {
+	div.options {
+		margin-top: 3em;
 
-	p.formerror {
-		margin-top: 2em;
-		font-size: 20px;
-		text-align: center;
-	}
+		.container {
+			text-align: center;
+			padding: 0.4em 0 0.2em 0;
 
-	.button {
-		margin-top: 1em;
+			img {
+				height: 3em;
+			}
+		}
 	}
 }

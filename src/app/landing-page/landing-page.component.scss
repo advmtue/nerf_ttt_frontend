@@ -1,0 +1,23 @@
+.wrap {
+    display: flex;
+    flex-direction: column;
+
+    .logo {
+        min-height: 40vh;
+    }
+
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .button {
+            flex-basis: 48%;
+            margin-bottom: 1.3em;
+
+            &.full-wide {
+                flex-basis: 100%;
+            }
+        }
+    }
+}

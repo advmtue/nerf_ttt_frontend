@@ -1,5 +1,39 @@
-  <div class="container pad metadata">
-    <h2>{{ lobbyMetadata.name }}</h2>
-    <h4>{{ lobbyMetadata.dateCreated | date :'short' }}</h4>
-    <p class="small"> {{ lobbyMetadata.ownerName }}</p>
-  </div>
+<div class="container pad metadata">
+  <h2>{{ lobbyMetadata.name }}</h2>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <p>Owner:</p>
+        </td>
+        <td>
+          <p>{{ lobbyMetadata.ownerName }}</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>Date:</p>
+        </td>
+        <td>
+          <p>{{ lobbyMetadata.dateCreated | date :'short' }}</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>Code:</p>
+        </td>
+        <td>
+          <p>{{ lobbyMetadata.code }}</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p>Round:</p>
+        </td>
+        <td>
+          <p>{{ lobbyMetadata.roundCount }}</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

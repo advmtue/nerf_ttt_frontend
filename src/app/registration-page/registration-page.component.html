@@ -1,0 +1,28 @@
+<div class="wrap">
+    <div class="heading">
+        <h1>Finalize Sign-Up</h1>
+    </div>
+
+    <div class="settings">
+        <p>Display Name</p>
+        <input type="text" placeholder="..." [formControl]="displayNameControl"
+            [class.error]="displayNameControl.errors && displayNameControl.touched">
+        <p class="errormsg small" *ngIf="displayNameControl.errors && displayNameControl.touched">
+            Display name is required
+        </p>
+    </div>
+
+    <div class="warning">
+        <p>Please set your display name to a value which other players can identify you.</p>
+        <p>Setting your name to confusing values may result in your account being suspended.</p>
+    </div>
+
+    <div class="buttons">
+        <div class="button" (click)="register()">
+            <p>Register</p>
+        </div>
+        <div class="button red-bg">
+            <p>Go Back</p>
+        </div>
+    </div>
+</div>

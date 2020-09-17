@@ -24,11 +24,11 @@ body {
 }
 
 h1 {
-	font-family: "PT Mono", monospace;
-	font-size: 1.5em;
-	color: $color-text-placeholder;
-	font-weight: 300;
-	margin-bottom: 1em;
+	font-family: "Roboto", sans-serif;
+	font-weight: 400;
+	color: white;
+	font-size: 2em;
+	text-align: center;
 }
 
 h2 {
@@ -62,7 +62,7 @@ a {
 
 p {
 	font-family: "Roboto", sans-serif;
-	font-size: 1.4em;
+	font-size: 1em;
 	color: $color-text-body;
 
 	&.errormsg {
@@ -147,13 +147,13 @@ form {
 
 /* Button styling */
 .button {
-	height: 2.1em;
+	height: 3em;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	color: $color-text-body;
 	font-family: "Roboto", sans-serif;
-	font-size: 1.4em;
+	font-size: 1em;
 
 	background-color: $color-darkest;
 	box-shadow: 0px 3px #000000;

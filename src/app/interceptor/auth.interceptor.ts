@@ -16,14 +16,14 @@ export class AuthInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (this.tokenService.tokenStatus.value === 'ACQUIRED') {
+    if (this.tokenService.tokenStatus.value === 'ACCESS') {
       // Create new headers
       const modifiedHeaders = request.headers.set(
-        'Authorization', `Bearer ${this.tokenService.token}`
+        'Authorization', `Bearer ${this.tokenService.accessToken}`
       );
 
       // Clone the request
-      const modifiedRequest = request.clone({headers: modifiedHeaders});
+      const modifiedRequest = request.clone({ headers: modifiedHeaders });
 
       // Handle it
       return next.handle(modifiedRequest);

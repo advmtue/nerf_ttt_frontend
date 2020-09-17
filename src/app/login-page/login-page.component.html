@@ -1,39 +1,11 @@
 <div class="wrap">
 	<div id="header">
-		<h1>Login</h1>
+		<h1>Please Sign In</h1>
 	</div>
 
-	<form [formGroup]="loginForm" class="large-space">
-		<div>
-			<label>Username</label>
-			<input
-				type="text"
-				placeholder="..."
-				[formControl]="loginForm.controls['username']"
-				[class.error]="shouldShowValidation('username')"/>
-			<p class="errormsg small"
-				*ngIf="shouldShowValidation('username')"
-				>Username is required</p>
+	<div class="options">
+		<div class="container" (click)="discordLogin()">
+			<img src="/assets/img/discord.svg">
 		</div>
-
-		<div>
-			<label>Password</label>
-			<input
-				type="password"
-				placeholder="..."
-				[formControl]="loginForm.controls['password']"
-				[class.error]="shouldShowValidation('password')"/>
-			<p class="errormsg small"
-				*ngIf="shouldShowValidation('password')"
-				>Password is required</p>
-		</div>
-
-		<div
-			class="button container"
-			(click)="onSubmit()">Login</div>
-		<p
-			*ngIf="showError"
-			class="errormsg formerror">Invalid Credentials</p>
-	</form>
+	</div>
 </div>
-

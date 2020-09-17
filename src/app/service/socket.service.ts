@@ -28,7 +28,7 @@ export class SocketService {
       this.stomp.configure({
         brokerURL: this.websocketUrl,
         connectHeaders: {
-          authToken: this.tokenService.token
+          authToken: this.tokenService.accessToken
         },
         heartbeatIncoming: 20000,
         heartbeatOutgoing: 10000,

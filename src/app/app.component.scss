@@ -1,0 +1,18 @@
+:host {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+
+  display: flex
+}
+
+#page-content {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  margin: 1em;
+
+  min-height: calc(100vh - 2em);
+}

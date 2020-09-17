@@ -10,28 +10,29 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ApiService } from './service/api.service';
-import { PasswordresetPageComponent } from './passwordreset-page/passwordreset-page.component';
 import { TokenService } from './service/token.service';
-import { LobbylistPageComponent } from './lobbylist-page/lobbylist-page.component';
 import { LogoutPageComponent } from './logout-page/logout-page.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 // Game states
-import { LobbyPageComponent } from './game-all/lobby-page/lobby-page.component';
+import { LobbyPageComponent } from './lobby-page/lobby-page.component';
 import { IngamePageComponent } from './game-all/ingame-page/ingame-page.component';
 import { PregamePageComponent } from './game-all/pregame-page/pregame-page.component';
 import { PostgamePageComponent } from './game-all/postgame-page/postgame-page.component';
 import { GamecontainerComponent } from './game-all/gamecontainer/gamecontainer.component';
 import { LaunchingPageComponent } from './game-all/launching-page/launching-page.component';
 import { GameMetadataViewComponent } from './game-metadata-view/game-metadata-view.component';
+import { AuthPageComponent } from './auth-page/auth-page.component';
+import { RegistrationPageComponent } from './registration-page/registration-page.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { JoinLobbyPageComponent } from './join-lobby-page/join-lobby-page.component';
+import { CreateLobbyPageComponent } from './create-lobby-page/create-lobby-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     LoginPageComponent,
-    PasswordresetPageComponent,
-    LobbylistPageComponent,
     LogoutPageComponent,
     LobbyPageComponent,
     IngamePageComponent,
@@ -39,7 +40,12 @@ import { GameMetadataViewComponent } from './game-metadata-view/game-metadata-vi
     PostgamePageComponent,
     GamecontainerComponent,
     LaunchingPageComponent,
-    GameMetadataViewComponent
+    GameMetadataViewComponent,
+    AuthPageComponent,
+    RegistrationPageComponent,
+    LandingPageComponent,
+    JoinLobbyPageComponent,
+    CreateLobbyPageComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +59,7 @@ import { GameMetadataViewComponent } from './game-metadata-view/game-metadata-vi
     TokenService,
     { provide: 'API_URL', useValue: environment.apiUrl },
     { provide: 'WEBSOCKET_URL', useValue: environment.websocketUrl },
+    { provide: 'DISCORD_OAUTH_URL', useValue: environment.discordOAuthUrl },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

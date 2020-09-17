@@ -6,81 +6,68 @@ import TokenInfo from 'src/types/TokenInfo';
   providedIn: 'root'
 })
 export class TokenService {
-  private userToken: string | undefined;
-  private tokenInfo: TokenInfo | undefined;
-  tokenStatus: BehaviorSubject<string> = new BehaviorSubject('INITIALIZING');
+  private _accessToken: string | null = null;
+  private _refreshToken: string | null = null;
+
+  // Token Lifecycles : INIT | NONE | REFRESH | ACCESS
+  public tokenStatus: BehaviorSubject<string> = new BehaviorSubject('INIT');
 
   constructor() {
-    // Pull token from localStorage if possible
-    const tok = localStorage.getItem('userToken');
+    // Pull refresh token from storage if possible
+    // We don't save the access token, just generate a new one per session
+    const refreshToken = localStorage.getItem('nerf_ttt_refresh_token');
 
-    if (tok === null) {
-      // No token in localstorage
-      this.userToken = undefined;
+    if (refreshToken === null) {
+      this.tokenStatus.next('NONE');
     } else {
-      // Assign token and build information
-      this.userToken = tok;
+      this._refreshToken = refreshToken;
+      this.tokenStatus.next('REFRESH');
+    }
+  }
 
-      this.buildTokenInfo();
+  get accessToken() {
+    return this._accessToken;
+  }
 
-      this.tokenStatus.next('ACQUIRED');
+  get refreshToken() {
+    return this._refreshToken;
+  }
+
+  set accessToken(newToken: string | null) {
+    // Null value indicates the token is being deleted
+    if (newToken === null) {
+      this._accessToken = null;
+
+      // If the refresh token has also been deleted
+      if (this._refreshToken === null) {
+        this.tokenStatus.next('NONE');
+      } else {
+        this.tokenStatus.next('REFRESH')
+      }
+    } else {
+      this._accessToken = newToken;
+      this.tokenStatus.next('ACCESS');
     }
   }
 
   /**
-   * Extra info from the JWT
+   * Set refresh token
    */
-  private buildTokenInfo() {
-    this.tokenInfo = JSON.parse(atob(this.token.split('.')[1]));
-    console.log(this.tokenInfo);
+  set refreshToken(newToken: string | null) {
+    if (newToken === null) {
+      this._refreshToken = null;
+      localStorage.removeItem('nerf_ttt_refresh_token');
+      this.tokenStatus.next('NONE');
+    } else {
+      this._refreshToken = newToken;
+      localStorage.setItem('nerf_ttt_refresh_token', newToken);
+      this.tokenStatus.next('REFRESH');
+    }
   }
 
-  /** Check the token claims for accessRole === 'admin' */
-  public userIsAdmin() {
-    if (!this.tokenInfo) { return false; }
-
-    return this.tokenInfo.accessRole === 'admin';
-  }
-
-  /** Pull the accessRole claim from the token */
-  public getAccessRole() {
-    if (!this.tokenInfo) { return 'user'; }
-
-    return this.tokenInfo.accessRole;
-  }
-
-  /** Pull the userId claim from the token */
-  public getUserId() {
-    if (!this.tokenInfo) { return 'none'; }
-
-    return this.tokenInfo.userId;
-  }
-
-  /** Pull the name claim from the token */
-  public getName() {
-    if (!this.tokenInfo) { return 'unknown'; }
-
-    return this.tokenInfo.name;
-  }
-
-  /** Clear the token and it's persistence */
-  deleteToken() {
-    this.userToken = undefined;
-    localStorage.removeItem('userToken');
-    this.tokenInfo = undefined;
-    this.tokenStatus.next('NONE');
-  }
-
-  /** Pull token info */
-  get token() {
-    return this.userToken;
-  }
-
-  set token(userToken: string) {
-    this.userToken = userToken;
-    this.buildTokenInfo();
-
-    localStorage.setItem('userToken', userToken);
-    this.tokenStatus.next('ACQUIRED');
+  // Clear state
+  public clear() {
+    this.accessToken = null;
+    this.refreshToken = null;
   }
 }

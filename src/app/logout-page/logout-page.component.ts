@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../service/token.service';
 import { Router } from '@angular/router';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-logout-page',
@@ -10,19 +11,20 @@ import { Router } from '@angular/router';
 export class LogoutPageComponent implements OnInit {
 
   constructor(
-    private tokenService: TokenService,
+    private userService: UserService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     // If the token gets updated to NONE then navigate back to login page
-    this.tokenService.tokenStatus.subscribe((tokenStatus: string) => {
-      if (tokenStatus === 'NONE') {
+
+    this.userService.authStatus.subscribe((status: string) => {
+      if (status === 'NONE') {
         this.router.navigate(['/login']);
       }
     });
 
-    // Delete the token -- effectively logs out
-    this.tokenService.deleteToken();
+    // Logout
+    this.userService.logout();
   }
 }

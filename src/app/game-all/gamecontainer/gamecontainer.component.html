@@ -1,6 +1,5 @@
 <div *ngIf="gameData; else noData">
   <div [ngSwitch]="gameData.status">
-    <app-lobbypage *ngSwitchCase="'LOBBY'" [lobbyMetadata]='gameData'></app-lobbypage>
     <app-launching-page *ngSwitchCase="'LAUNCHING'" [lobbyMetadata]='gameData'></app-launching-page>
     <app-pregame-page *ngSwitchCase="'PREGAME'" [lobbyMetadata]='gameData'></app-pregame-page>
   </div>

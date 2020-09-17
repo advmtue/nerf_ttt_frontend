@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { TokenService } from './service/token.service';
+import { UserService } from './service/user.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +11,9 @@ import { TokenService } from './service/token.service';
 export class AppComponent {
   title = 'Nerf TTT';
 
-  // Instantiate a token service
-  constructor(private tokenService: TokenService) {}
+  // Instantiate the user service as early as possible
+  // User service will also invoke a token service
+  constructor(
+    private userService: UserService
+  ) { }
 }

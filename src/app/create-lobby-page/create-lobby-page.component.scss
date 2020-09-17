@@ -1,0 +1,31 @@
+.wrap {
+    margin-top: 3em;
+
+    .info {
+        margin-top: 3em;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        p, input {
+            flex-basis: 20%;
+            flex-grow: 1;
+        }
+    }
+
+    .errors {
+        margin-top: 3em;
+        text-align: center;
+    }
+
+    .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 5em;
+
+        .button {
+            flex-basis: 48%;
+        }
+    }
+}

@@ -1,0 +1,21 @@
+<div class="wrap">
+    <h1>Join a Lobby</h1>
+
+    <div class="info">
+        <p>Lobby Code</p>
+        <input type="text" placeholder="..." [formControl]="lobbyCodeControl">
+    </div>
+
+    <div class="errors">
+        <p class="errormsg small" *ngIf="errorMsg !== ''">{{ errorMsg }}</p>
+    </div>
+
+    <div class="buttons">
+        <div class="button green-bg" (click)="joinLobby()">
+            <p>Join</p>
+        </div>
+        <div class="button red-bg" routerLink="/landing">
+            <p>Back</p>
+        </div>
+    </div>
+</div>
