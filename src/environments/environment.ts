@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080',
-  websocketUrl: 'ws://localhost:8080/socket',
+  websocketUrl: 'ws://localhost:8082',
   discordOAuthUrl: 'https://discord.com/api/oauth2/authorize?client_id=754956360424226882&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fauth%3Fref%3Ddiscord&response_type=code&scope=identify'
 };
 

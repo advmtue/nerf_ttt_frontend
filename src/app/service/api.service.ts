@@ -62,11 +62,11 @@ export class ApiService {
   }
 
   setLobbyPlayerReady(lobbyId: string): Observable<boolean> {
-    return this.httpClient.patch<boolean>(`${this.apiUrl}/lobby/${lobbyId}/ready`, {});
+    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/lobby/${lobbyId}/ready`).pipe(pluck('success'));
   }
 
   setLobbyPlayerUnready(lobbyId: string): Observable<boolean> {
-    return this.httpClient.patch<boolean>(`${this.apiUrl}/lobby/${lobbyId}/unready`, {});
+    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/lobby/${lobbyId}/unready`).pipe(pluck('success'));
   }
 
   startLobby(lobbyId: string): Observable<boolean> {

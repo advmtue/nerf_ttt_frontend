@@ -28,12 +28,7 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
       const gameId = params.gameid;
       console.log(`Found gameId = ${gameId}`);
 
-      // Add subscription for game status changes
-      this.subscriptions.add(
-        this.socketService.watchPath<{status: string}>(`/topic/lobby/${gameId}/status`)
-          .pipe(pluck<{status: string}, string>('status'))
-          .subscribe(this.onGameChangeStatus.bind(this))
-      );
+      // TODO Add subscription for game status changes
 
       this.initializeGamestate(gameId);
     });
