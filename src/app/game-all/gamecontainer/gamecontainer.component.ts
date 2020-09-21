@@ -19,14 +19,14 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
   public subscriptions = new Subscription();
 
   constructor(
-    private route: ActivatedRoute,
-    private apiService: ApiService,
-    private router: Router,
-    private socketService: SocketService
+    private _route: ActivatedRoute,
+    private _apiService: ApiService,
+    private _router: Router,
+    private _socketService: SocketService
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this._route.params.subscribe(params => {
       const gameId = params.gameid;
       console.log(`Found gameId = ${gameId}`);
 
@@ -37,17 +37,18 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.gameData) {
+      this._socketService.leaveGame(this.gameData.gameId);
+    }
+
     this.subscriptions.unsubscribe();
   }
 
-  private onGameChangeStatus(newStatus: string) {
-    this.gameData.status = newStatus;
-  }
-
   private initializeGamestate(gameId: string) {
-    this.apiService.getGameMetadata(gameId).subscribe(lobbyData => {
+    // TODO Clean up these calls and see if it can be combined into just one
+    this._apiService.getGameMetadata(gameId).subscribe(lobbyData => {
       if (lobbyData.status === 'CLOSED') {
-        this.router.navigate(['/']);
+        this._router.navigate(['/']);
         return;
       }
 
@@ -55,8 +56,28 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
       this.gameData = lobbyData;
     });
 
-    this.apiService.getGameInfo(gameId).subscribe(gameInfo => {
+    this._apiService.getGameInfo(gameId).subscribe(gameInfo => {
+      console.log(gameInfo);
       this.gameInfo = gameInfo;
     });
+
+    // Listen for game start
+    this.subscriptions.add(
+      this._socketService.onGameStart(gameId).subscribe(state => {
+        console.log('[GameContainer] Recieved game start event :', state);
+        this.gameData.status = 'INGAME'; 
+      })
+    );
+
+    // Listen for game end
+    this.subscriptions.add(
+      this._socketService.onGameEnd(gameId).subscribe(state => {
+        console.log('[GameContainer] Recieved game end event :', state);
+        this.gameData.status = 'POSTGAME';
+      })
+    );
+
+    // Join the game
+    this._socketService.joinGame(gameId);
   }
 }
