@@ -5,6 +5,7 @@ import GameMetadata from 'src/types/GameMetadata';
 import { SocketService } from 'src/app/service/socket.service';
 import { Subscription } from 'rxjs';
 import { pluck } from 'rxjs/operators';
+import GamePlayerInfo from 'src/types/GameInfo';
 
 @Component({
   selector: 'app-gamecontainer',
@@ -13,6 +14,7 @@ import { pluck } from 'rxjs/operators';
 })
 export class GamecontainerComponent implements OnInit, OnDestroy {
   public gameData: GameMetadata = null;
+  public gameInfo: GamePlayerInfo = null;
 
   public subscriptions = new Subscription();
 
@@ -52,5 +54,7 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
       console.log(lobbyData);
       this.gameData = lobbyData;
     });
+
+    this.apiService.getGameInfo(gameId).subscribe(console.log);
   }
 }

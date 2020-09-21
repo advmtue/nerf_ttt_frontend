@@ -6,6 +6,7 @@ import LobbyPlayer from 'src/types/LobbyPlayer';
 import Profile from 'src/types/UserProfile';
 import LobbyMetadata from 'src/types/LobbyMetadata';
 import { pluck } from 'rxjs/operators';
+import GameInfo from 'src/types/GameInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +46,12 @@ export class ApiService {
     return this.httpClient.delete<{ lobbyId: string }>(`${this.apiUrl}/lobby/${lobbyId}`);
   }
 
-  getGameMetadata(lobbyId: string): Observable<GameMetadata> {
-    return this.httpClient.get<GameMetadata>(`${this.apiUrl}/lobby/${lobbyId}`);
+  getGameMetadata(gameId: string): Observable<GameMetadata> {
+    return this.httpClient.get<GameMetadata>(`${this.apiUrl}/game/${gameId}`);
+  }
+
+  getGameInfo(gameId: string): Observable<GameInfo> {
+    return this.httpClient.get<GameInfo>(`${this.apiUrl}/game/${gameId}/info`);
   }
 
   getLobbyPlayers(lobbyId: string): Observable<LobbyPlayer[]> {
