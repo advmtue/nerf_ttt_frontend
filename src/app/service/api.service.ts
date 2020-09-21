@@ -69,7 +69,7 @@ export class ApiService {
     return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/lobby/${lobbyId}/unready`).pipe(pluck('success'));
   }
 
-  startLobby(lobbyId: string): Observable<boolean> {
-    return this.httpClient.patch<boolean>(`${this.apiUrl}/lobby/${lobbyId}/start`, {});
+  startLobby(lobbyId: string): Observable<string> {
+    return this.httpClient.get<string>(`${this.apiUrl}/lobby/${lobbyId}/start`, {});
   }
 }

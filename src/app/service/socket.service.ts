@@ -153,4 +153,21 @@ export class SocketService {
       });
     })
   }
+
+  /**
+   * Triggered when a lobby launches that the client is recieving updates for
+   * 
+   * @param lobbyId Lobby ID
+   * @returns An observable emitting a gameId
+   */
+  public onLobbyLaunch(lobbyId: string): Observable<string> {
+    return new Observable(sub => {
+      this._io.on('lobbyLaunch', (data: SocketMessage<string>) => { 
+        console.log(`[SOCKET] Got lobbyLaunch`);
+        if (data.scopeId === lobbyId) {
+          sub.next(data.payload);
+        }
+      });
+    })
+  }
 }

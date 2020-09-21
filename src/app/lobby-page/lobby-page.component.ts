@@ -80,6 +80,10 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this._socketService.onLobbyClose(lobbyId).subscribe(this.onLobbyClosed.bind(this))
     );
+
+    this.subscriptions.add(
+      this._socketService.onLobbyLaunch(lobbyId).subscribe(this.onLobbyLaunch.bind(this))
+    );
   }
 
   dropSocketConnections() {
@@ -195,6 +199,11 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
   onLobbyClosed() {
     console.log(`Lobby closed`);
     this._router.navigate(['/']);
+  }
+
+  onLobbyLaunch(gameId: string) {
+    console.log(`[LobbyComponent] Lobby Launched into :${gameId}`);
+    this._router.navigate(['/game', gameId]);
   }
 
   /**
