@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import LobbyPlayer from 'src/types/LobbyPlayer';
 import * as socketio from 'socket.io-client';
 import SocketMessage from 'src/types/SocketMessage';
@@ -9,7 +9,7 @@ import SocketMessage from 'src/types/SocketMessage';
 })
 export class SocketService {
   private _io: SocketIOClient.Socket;
-  public socketStatus: Subject<string> = new Subject<string>();
+  public socketStatus: BehaviorSubject<string> = new BehaviorSubject<string>('INIT');
 
   constructor(@Inject('WEBSOCKET_URL') private _websocketUrl: string) {
     this._io = socketio(_websocketUrl, {autoConnect: false});
@@ -32,6 +32,7 @@ export class SocketService {
    * @param lobbyId Lobby Id / Code
    */
   public joinLobby(lobbyId: string) {
+    console.log('[SOCKET] Joining lobby');
     this._io.emit('joinLobby', {lobbyId});
   }
 
@@ -129,6 +130,23 @@ export class SocketService {
     return new Observable(sub => {
       this._io.on('lobbyPlayerUnready', (data: SocketMessage<string>) => { 
         console.log(`[SOCKET] Got lobbyPlayerUnready`);
+        if (data.scopeId === lobbyId) {
+          sub.next(data.payload);
+        }
+      });
+    })
+  }
+
+  /**
+   * Triggered when a lobby closes that hte client is recieving updates for
+   * 
+   * @param lobbyId Lobby ID
+   * @returns An observable emitting player Ids
+   */
+  public onLobbyClose(lobbyId: string): Observable<string> {
+    return new Observable(sub => {
+      this._io.on('lobbyClose', (data: SocketMessage<string>) => { 
+        console.log(`[SOCKET] Got lobbyClose`);
         if (data.scopeId === lobbyId) {
           sub.next(data.payload);
         }

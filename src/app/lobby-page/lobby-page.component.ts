@@ -41,7 +41,17 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
     })
   }
 
+  ngOnDestroy(): void {
+    this.dropSocketConnections();
+
+    if (this.lobbyMetadata) {
+      this.leaveLobby();
+    }
+  }
+
+
   createSocketSubscriptions(lobbyId: string) {
+    console.log('[LobbyComponent] Initializing Lobby');
     // Join lobby
     this._socketService.joinLobby(lobbyId);
 
@@ -65,12 +75,19 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this._socketService.onLobbyPlayerUnready(lobbyId).subscribe(this.onPlayerUnready.bind(this))
     );
+
     // Lobby closed
+    this.subscriptions.add(
+      this._socketService.onLobbyClose(lobbyId).subscribe(this.onLobbyClosed.bind(this))
+    );
   }
 
   dropSocketConnections() {
     this.subscriptions.unsubscribe();
-    this._socketService.leaveLobby(this.lobbyMetadata.code);
+
+    if (this.lobbyMetadata) {
+      this._socketService.leaveLobby(this.lobbyMetadata.code);
+    }
   }
 
   onInitLobbyId(lobbyId: string) {
@@ -101,10 +118,6 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
       this.isLocalPlayerJoined();
       this.isLocalPlayerReady();
     });
-  }
-
-  ngOnDestroy(): void {
-    this.dropSocketConnections();
   }
 
   /**
@@ -179,11 +192,9 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
   /**
    * Triggered when (hopefully) this lobby closed
    */
-  onLobbyClosed(lobbyId: string) {
-    if (lobbyId === this.lobbyMetadata.code) {
-      console.log(`Lobby closed = ${lobbyId}`);
-      this._router.navigate(['/']);
-    }
+  onLobbyClosed() {
+    console.log(`Lobby closed`);
+    this._router.navigate(['/']);
   }
 
   /**
