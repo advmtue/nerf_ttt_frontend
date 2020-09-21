@@ -27,6 +27,7 @@ import { RegistrationPageComponent } from './registration-page/registration-page
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { JoinLobbyPageComponent } from './join-lobby-page/join-lobby-page.component';
 import { CreateLobbyPageComponent } from './create-lobby-page/create-lobby-page.component';
+import { GameStatusViewComponent } from './game-status-view/game-status-view.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { CreateLobbyPageComponent } from './create-lobby-page/create-lobby-page.
     RegistrationPageComponent,
     LandingPageComponent,
     JoinLobbyPageComponent,
-    CreateLobbyPageComponent
+    CreateLobbyPageComponent,
+    GameStatusViewComponent
   ],
   imports: [
     BrowserModule,

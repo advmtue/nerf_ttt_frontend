@@ -170,4 +170,21 @@ export class SocketService {
       });
     })
   }
+
+  /**
+   * Triggered when a game starts that the client is recieving updates for
+   * 
+   * @param lobbyId Lobby ID
+   * @returns An observable emitting a gameId
+   */
+  public onGameStart(gameId: string): Observable<string> {
+    return new Observable(sub => {
+      this._io.on('gameStart', (data: SocketMessage<string>) => { 
+        console.log(`[SOCKET] Got gameStart`);
+        if (data.scopeId === gameId) {
+          sub.next(data.payload);
+        }
+      });
+    })
+  }
 }

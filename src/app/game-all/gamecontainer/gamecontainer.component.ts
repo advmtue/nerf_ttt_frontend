@@ -55,6 +55,8 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
       this.gameData = lobbyData;
     });
 
-    this.apiService.getGameInfo(gameId).subscribe(console.log);
+    this.apiService.getGameInfo(gameId).subscribe(gameInfo => {
+      this.gameInfo = gameInfo;
+    });
   }
 }

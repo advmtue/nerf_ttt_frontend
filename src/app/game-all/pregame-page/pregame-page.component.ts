@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import GameInfo from 'src/types/GameInfo';
 import GameMetadata from 'src/types/GameMetadata';
 
 @Component({
@@ -7,7 +8,8 @@ import GameMetadata from 'src/types/GameMetadata';
   styleUrls: ['./pregame-page.component.scss']
 })
 export class PregamePageComponent implements OnInit {
-  @Input() lobbyMetadata: GameMetadata;
+  @Input() gameMetadata: GameMetadata;
+  @Input() gameInfo: GameInfo;
 
   constructor() { }
 
