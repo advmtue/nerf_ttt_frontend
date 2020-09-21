@@ -187,4 +187,21 @@ export class SocketService {
       });
     })
   }
+
+  /**
+   * Triggered when a game ends that the client is recieving updates for
+   * 
+   * @param lobbyId Lobby ID
+   * @returns An observable emitting a gameId
+   */
+  public onGameEnd(gameId: string): Observable<string> {
+    return new Observable(sub => {
+      this._io.on('gameEnd', (data: SocketMessage<string>) => { 
+        console.log(`[SOCKET] Got gameEnd`);
+        if (data.scopeId === gameId) {
+          sub.next(data.payload);
+        }
+      });
+    })
+  }
 }
