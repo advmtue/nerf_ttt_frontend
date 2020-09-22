@@ -106,6 +106,13 @@ div.container {
 	}
 }
 
+.stick-to-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding-bottom: 0em;
+}
+
 /* Text/Password input styling */
 input[type=text], input[type=password] {
 	background-color: rgba(0,0,0,0); 
