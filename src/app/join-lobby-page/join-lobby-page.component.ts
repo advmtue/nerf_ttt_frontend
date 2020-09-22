@@ -26,7 +26,10 @@ export class JoinLobbyPageComponent implements OnInit {
       return;
     }
 
-    this.apiService.getLobbyMetadata(this.lobbyCodeControl.value).subscribe({
+    let lobbyCode: string = this.lobbyCodeControl.value;
+    lobbyCode = lobbyCode.toUpperCase();
+
+    this.apiService.getLobbyMetadata(lobbyCode).subscribe({
       next: (lobbyInfo) => this.router.navigate(["/lobby", lobbyInfo.code]),
       error: (err) => this.onJoinLobbyError(err.error)
     });
