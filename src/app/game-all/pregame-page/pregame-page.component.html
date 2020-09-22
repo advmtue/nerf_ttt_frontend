@@ -23,7 +23,7 @@
         <div class="players container">
             <h3>Known Roles</h3>
             <div class="playertile" *ngFor="let player of gameInfo.knownRoles">
-                <p>{{ player.displayName }} <span [class]="player.role">●</span></p>
+                <p>{{ player.name }} <span [class]="player.role">●</span></p>
             </div>
         </div>
     </div>

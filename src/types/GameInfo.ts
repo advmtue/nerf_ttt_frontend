@@ -8,6 +8,6 @@ export default interface GameInfo {
 }
 
 export interface GamePlayerBasic {
-  displayName: string;
+  name: string;
   role: string;
 }
