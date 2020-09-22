@@ -77,4 +77,8 @@ export class ApiService {
   startLobby(lobbyId: string): Observable<string> {
     return this.httpClient.get<string>(`${this.apiUrl}/lobby/${lobbyId}/start`, {});
   }
+
+  startGame(gameId: string): Observable<void> {
+    return this.httpClient.get<void>(`${this.apiUrl}/game/${gameId}/start`);
+  }
 }

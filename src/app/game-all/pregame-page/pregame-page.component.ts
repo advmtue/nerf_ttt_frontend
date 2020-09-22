@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ApiService } from 'src/app/service/api.service';
 import { UserService } from 'src/app/service/user.service';
 import GameInfo from 'src/types/GameInfo';
 import GameMetadata from 'src/types/GameMetadata';
@@ -14,7 +15,7 @@ export class PregamePageComponent implements OnInit {
 
   public shouldShowInfo = false;
 
-  constructor(private _userService: UserService) { }
+  constructor(private _userService: UserService, private _apiService: ApiService) { }
 
   ngOnInit(): void {
   }
@@ -28,7 +29,7 @@ export class PregamePageComponent implements OnInit {
   }
 
   startGame() {
-    console.log('Game start or something idk lmwo ');
+    this._apiService.startGame(this.gameMetadata.gameId).subscribe()
   }
 
   public localPlayerIsGamemaster(): boolean {
