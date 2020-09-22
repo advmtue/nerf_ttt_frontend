@@ -12,7 +12,7 @@ export class PregamePageComponent implements OnInit {
   @Input() gameMetadata: GameMetadata;
   @Input() gameInfo: GameInfo;
 
-  public showInfo = false;
+  public shouldShowInfo = false;
 
   constructor(private _userService: UserService) { }
 
@@ -20,12 +20,11 @@ export class PregamePageComponent implements OnInit {
   }
 
   hideInfo() {
-    this.showInfo = false;
+    this.shouldShowInfo = false;
   }
 
-  toggleInfo() {
-    this.showInfo = true;
-    setTimeout(this.hideInfo.bind(this), 5000);
+  showInfo() {
+    this.shouldShowInfo = true;
   }
 
   startGame() {

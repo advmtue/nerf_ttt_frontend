@@ -2,8 +2,7 @@
 <app-game-status-view [gameState]="gameMetadata.status"></app-game-status-view>
 
 
-<div *ngIf="showInfo then roleInfo; else hiddenInfo"></div>
-
+<div *ngIf="shouldShowInfo then roleInfo"></div>
 <ng-template #roleInfo>
     <div class="roleinfo">
         <div class="role container">
@@ -17,22 +16,17 @@
 
     <div class="known-roles">
         <div class="buttons">
-            <div class="button yellow-bg" (click)="hideInfo()">Hide Info</div>
-            <div class="button blue-bg" (click)="startGame()" *ngIf="localPlayerIsGamemaster()">Start</div>
         </div>
         <div class="players container">
             <h3>Known Roles</h3>
             <div class="playertile" *ngFor="let player of gameInfo.knownRoles">
-                <p>{{ player.name }} <span [class]="player.role">●</span></p>
+                <p><span [class]="player.role">●</span> {{ player.name }}</p>
             </div>
         </div>
     </div>
-
-    <div class="warning">
-        <p>Information will be automatically hidden after 5 seconds...</p>
-    </div>
 </ng-template>
 
-<ng-template #hiddenInfo>
-    <div class="button green-bg" (click)="toggleInfo()">Show Info</div>
-</ng-template>
+<div class="stick-to-bottom">
+    <div class="button green-bg" (touchstart)="showInfo()" (touchend)="hideInfo()">Hold: Show Info</div>
+    <div class="button blue-bg" (click)="startGame()" *ngIf="localPlayerIsGamemaster()">Start</div>
+</div>
