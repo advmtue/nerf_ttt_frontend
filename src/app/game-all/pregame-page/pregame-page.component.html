@@ -1,20 +1,36 @@
 
 <app-game-status-view [gameState]="gameMetadata.status"></app-game-status-view>
-<div class="roleinfo">
-    <div class="role">
-        <h3>{{ gameInfo.role }}</h3>
-    </div>
-    <div class="analyzer-code">
-        <h3>{{ gameInfo.analyzerCode }}</h3>
-    </div>
-</div>
 
-<div class="known-roles">
-    <div class="hide-button">
-        <div class="button yellow-bg">Hide Info</div>
+
+<div *ngIf="showInfo then roleInfo; else hiddenInfo"></div>
+
+<ng-template #roleInfo>
+    <div class="roleinfo">
+        <div class="role container">
+            <div class="role-colour" [class]="gameInfo.role"></div>
+            <h2>{{ gameInfo.role }}</h2>
+        </div>
+        <div class="analyzer-code container">
+            <h2>{{ gameInfo.analyzerCode }}</h2>
+        </div>
     </div>
-    <div class="players">
-        <h3>Known Roles:</h3>
-        <div class="playertile" *ngFor="let player of gameInfo.knownRoles">{{ player.displayerName }}</div>
+
+    <div class="known-roles">
+        <div class="buttons">
+            <div class="button yellow-bg" (click)="hideInfo()">Hide Info</div>
+            <div class="button blue-bg" (click)="startGame()" *ngIf="localPlayerIsGamemaster()">Start</div>
+        </div>
+        <div class="players container">
+            <h3>Known Roles:</h3>
+            <div class="playertile" *ngFor="let player of gameInfo.knownRoles">{{ player.displayerName }}</div>
+        </div>
     </div>
-</div>
+
+    <div class="warning">
+        <p>Information will be automatically hidden after 5 seconds...</p>
+    </div>
+</ng-template>
+
+<ng-template #hiddenInfo>
+    <div class="button green-bg" (click)="toggleInfo()">Show Info</div>
+</ng-template>
