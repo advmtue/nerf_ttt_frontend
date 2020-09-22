@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from './service/user.service';
 
@@ -7,7 +7,10 @@ import { UserService } from './service/user.service';
   providedIn: 'root'
 })
 export class AuthenticatedGuard implements CanActivate {
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private _router: Router
+  ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -17,6 +20,9 @@ export class AuthenticatedGuard implements CanActivate {
       this.userService.authStatus.subscribe(newStatus => {
         if (newStatus === 'FULL') {
           subscriber.next(true);
+        } else if (newStatus === 'NONE') {
+          this._router.navigate(['/login']);
+          subscriber.next(false);
         }
       })
     })
