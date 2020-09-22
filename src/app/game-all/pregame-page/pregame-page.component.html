@@ -1,4 +1,3 @@
-
 <app-game-status-view [gameState]="gameMetadata.status"></app-game-status-view>
 
 
@@ -27,6 +26,8 @@
 </ng-template>
 
 <div class="stick-to-bottom">
-    <div class="button green-bg" (touchstart)="showInfo()" (touchend)="hideInfo()">Hold: Show Info</div>
+    <div class="button green-bg" (touchstart)="showInfo()" (touchend)="hideInfo()" (mousedown)="showInfo()"
+        (mouseup)="hideInfo()">Hold: Show Info</div>
+
     <div class="button blue-bg" (click)="startGame()" *ngIf="localPlayerIsGamemaster()">Start</div>
 </div>
