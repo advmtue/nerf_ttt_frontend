@@ -1,0 +1,14 @@
+@import "../../styles.scss";
+
+.container {
+    padding: 1em;
+
+    h1 {
+        margin-bottom: 0.5em;
+    }
+
+    p {
+        text-align: center;
+        color: $color-text-placeholder;
+    }
+}
