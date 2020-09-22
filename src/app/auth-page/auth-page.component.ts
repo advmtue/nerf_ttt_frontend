@@ -28,7 +28,7 @@ export class AuthPageComponent implements OnInit {
       if (newStatus === 'REGISTRATION') {
         this.router.navigate(['/register']);
       } else if (newStatus === 'FULL') {
-        this.router.navigate(['/lobbies']);
+        this.router.navigate(['/']);
       }
     })
 
