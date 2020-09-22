@@ -24,12 +24,15 @@
 
     .buttons {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        margin-top: 5em;
 
         .button {
             flex-basis: 48%;
         }
+    }
+
+    .stick-to-bottom {
+        padding: 1em;
+        margin: 0;
     }
 }
