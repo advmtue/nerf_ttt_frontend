@@ -37,6 +37,7 @@
             flex-grow: 1;
             text-align: center;
             font-family: "PT Mono", monospace;
+            color: $color-text-placeholder;
         }
     }
 
@@ -48,6 +49,7 @@
 
         h2 {
             font-family: "PT Mono", monospace;
+            color: $color-text-placeholder;
         }
     }
 }
@@ -75,12 +77,28 @@
 
     .players {
         flex-grow: 1;
-        padding: 0.5em;
+        padding: 0.8em;
         margin-bottom: 0;
 
         h3 {
             font-family: "PT Mono", monospace;
             color: $color-text-placeholder;
+            font-weight: 300;
+            margin-bottom: 1em;
+        }
+
+        .playertile {
+            margin-bottom: 0.5em;
+            p {
+                text-align: right;
+                color: $color-text-placeholder;
+
+                span {
+                    margin-left: 1em;
+                    &.TRAITOR { color: $color-red-deep; }
+                    &.DETECTIVE { color: $color-blue-deep; }
+                }
+            }
         }
     }
 }

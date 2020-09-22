@@ -21,8 +21,10 @@
             <div class="button blue-bg" (click)="startGame()" *ngIf="localPlayerIsGamemaster()">Start</div>
         </div>
         <div class="players container">
-            <h3>Known Roles:</h3>
-            <div class="playertile" *ngFor="let player of gameInfo.knownRoles">{{ player.displayerName }}</div>
+            <h3>Known Roles</h3>
+            <div class="playertile" *ngFor="let player of gameInfo.knownRoles">
+                <p>{{ player.displayName }} <span [class]="player.role">●</span></p>
+            </div>
         </div>
     </div>
 
