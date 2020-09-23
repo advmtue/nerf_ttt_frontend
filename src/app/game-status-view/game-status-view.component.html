@@ -1,4 +1,36 @@
-<div [ngSwitch]="gameState">
+<div [ngSwitch]="metadata.status">
+    <div *ngSwitchCase="'LOBBY'">
+        <div class="container pad metadata">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p>Owner:</p>
+                        </td>
+                        <td>
+                            <p>{{ metadata.ownerName }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Date:</p>
+                        </td>
+                        <td>
+                            <p>{{ metadata.dateCreated | date :'short' }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>Code:</p>
+                        </td>
+                        <td>
+                            <p>{{ metadata.code }}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div *ngSwitchCase="'PREGAME'" class="container">
         <h1>PREGAME</h1>
         <p>Waiting for game owner to start</p>

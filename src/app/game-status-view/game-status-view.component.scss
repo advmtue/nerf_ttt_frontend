@@ -15,4 +15,16 @@
     &.red-outline {
         border: 2px solid $color-red-deep;
     }
+
+    table {
+        tr td:first-child p {
+            color: $color-text-placeholder;
+            margin-right: 1em;
+        }
+
+        p {
+            text-align: left;
+            color: $color-text-body;
+        }
+    }
 }

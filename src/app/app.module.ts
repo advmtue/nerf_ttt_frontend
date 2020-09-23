@@ -20,7 +20,6 @@ import { IngamePageComponent } from './game-all/ingame-page/ingame-page.componen
 import { PregamePageComponent } from './game-all/pregame-page/pregame-page.component';
 import { PostgamePageComponent } from './game-all/postgame-page/postgame-page.component';
 import { GamecontainerComponent } from './game-all/gamecontainer/gamecontainer.component';
-import { GameMetadataViewComponent } from './game-metadata-view/game-metadata-view.component';
 import { AuthPageComponent } from './auth-page/auth-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
@@ -39,7 +38,6 @@ import { GameFullViewComponent } from './game-full-view/game-full-view.component
     PregamePageComponent,
     PostgamePageComponent,
     GamecontainerComponent,
-    GameMetadataViewComponent,
     AuthPageComponent,
     RegistrationPageComponent,
     LandingPageComponent,
