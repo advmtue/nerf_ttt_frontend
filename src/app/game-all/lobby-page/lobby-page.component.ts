@@ -73,10 +73,6 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
   dropSocketConnections() {
     this.subscriptions.unsubscribe();
-
-    if (this.metadata) {
-      this._socketService.leaveGame(this.metadata.code);
-    }
   }
 
   onInitLobbyId(lobbyId: string) {
