@@ -8,7 +8,6 @@ import GameMetadata from 'src/types/GameMetadata';
 import GamePlayer from 'src/types/LobbyPlayer';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
-import GameInfo from 'src/types/GameInfo';
 
 @Component({
   selector: 'app-lobbypage',
@@ -36,11 +35,10 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.dropSocketConnections();
 
-    if (this.metadata) {
+    if (this.metadata.status === 'LOBBY') {
       this.leaveLobby();
     }
   }
-
 
   createSocketSubscriptions(lobbyId: string) {
     console.log('[LobbyComponent] Initializing Lobby');
