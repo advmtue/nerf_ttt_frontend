@@ -1,7 +1,7 @@
 export default interface GameInfo {
   role: string;
   analyzerCode: string;
-  knownRoles: GamePlayerBasic[];
+  players: GamePlayerBasic[];
 
   scansRemaining?: number;
   lastScanTime?: number;

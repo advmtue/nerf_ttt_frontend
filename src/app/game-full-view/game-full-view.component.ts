@@ -17,4 +17,7 @@ export class GameFullViewComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  knownRoles() {
+    return this.info.players.filter(p => p.role !== 'INNOCENT');
+  }
 }

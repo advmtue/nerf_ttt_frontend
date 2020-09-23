@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import LobbyPlayer from 'src/types/LobbyPlayer';
+import GamePlayer from 'src/types/LobbyPlayer';
 import * as socketio from 'socket.io-client';
 import SocketMessage from 'src/types/SocketMessage';
 
@@ -52,9 +52,9 @@ export class SocketService {
    * @param lobbyId Game ID
    * @returns An observable emitting gamePlayers
    */
-  public onGamePlayerJoin(gameId: string): Observable<LobbyPlayer> {
+  public onGamePlayerJoin(gameId: string): Observable<GamePlayer> {
     return new Observable(sub => {
-      this._io.on('gamePlayerJoin', (data: SocketMessage<LobbyPlayer>) => { 
+      this._io.on('gamePlayerJoin', (data: SocketMessage<GamePlayer>) => { 
         console.log(`[SOCKET] Got gamePlayerJoin`);
 
         if (data.scopeId === gameId) {

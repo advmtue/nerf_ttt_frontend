@@ -1,4 +1,4 @@
-export default interface LobbyPlayerChange {
+export default interface GamePlayerChange {
   lobbyId: string;
   playerCount: number;
 }

@@ -5,7 +5,7 @@ import { ApiService } from '../../service/api.service';
 import { SocketService } from '../../service/socket.service';
 // Types
 import GameMetadata from 'src/types/GameMetadata';
-import LobbyPlayer from 'src/types/LobbyPlayer';
+import GamePlayer from 'src/types/LobbyPlayer';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
 import GameInfo from 'src/types/GameInfo';
@@ -18,7 +18,7 @@ import GameInfo from 'src/types/GameInfo';
 export class LobbyPageComponent implements OnInit, OnDestroy {
   @Input() metadata: GameMetadata;
 
-  lobbyPlayers: LobbyPlayer[] = [];
+  lobbyPlayers: GamePlayer[] = [];
   private subscriptions = new Subscription();
 
   constructor(
@@ -148,7 +148,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * Triggered when a player joins the game
    * @param playerInfo Information of the joining player
    */
-  onPlayerJoin(playerInfo: LobbyPlayer) {
+  onPlayerJoin(playerInfo: GamePlayer) {
     console.log(playerInfo);
     this.lobbyPlayers = this.lobbyPlayers.filter(p => p.userId !== playerInfo.userId);
 

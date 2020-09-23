@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import GameMetadata from 'src/types/GameMetadata';
-import LobbyPlayer from 'src/types/LobbyPlayer';
+import GamePlayer from 'src/types/LobbyPlayer';
 import Profile from 'src/types/UserProfile';
 import { pluck } from 'rxjs/operators';
 import GameInfo from 'src/types/GameInfo';
@@ -49,8 +49,8 @@ export class ApiService {
     return this.httpClient.get<GameInfo>(`${this.apiUrl}/game/${gameId}/info`);
   }
 
-  getLobbyPlayers(lobbyId: string): Observable<LobbyPlayer[]> {
-    return this.httpClient.get<LobbyPlayer[]>(`${this.apiUrl}/game/${lobbyId}/players`);
+  getLobbyPlayers(lobbyId: string): Observable<GamePlayer[]> {
+    return this.httpClient.get<GamePlayer[]>(`${this.apiUrl}/game/${lobbyId}/players`);
   }
 
   joinLobby(lobbyId: string): Observable<boolean> {
