@@ -1,29 +1,5 @@
-<app-game-status-view [gameState]="gameMetadata.status"></app-game-status-view>
 
-
-<div *ngIf="shouldShowInfo then roleInfo"></div>
-<ng-template #roleInfo>
-    <div class="roleinfo">
-        <div class="role container">
-            <div class="role-colour" [class]="gameInfo.role"></div>
-            <h2>{{ gameInfo.role }}</h2>
-        </div>
-        <div class="analyzer-code container">
-            <h2>{{ gameInfo.analyzerCode }}</h2>
-        </div>
-    </div>
-
-    <div class="known-roles">
-        <div class="buttons">
-        </div>
-        <div class="players container">
-            <h3>Known Roles</h3>
-            <div class="playertile" *ngFor="let player of gameInfo.knownRoles">
-                <p><span [class]="player.role">●</span> {{ player.name }}</p>
-            </div>
-        </div>
-    </div>
-</ng-template>
+<app-game-full-view [gameMetadata]="gameMetadata" [gameInfo]="gameInfo" [shouldShow]="shouldShowInfo"></app-game-full-view>
 
 <div class="stick-to-bottom">
     <div class="button green-bg" (touchstart)="showInfo()" (touchend)="hideInfo()" (mousedown)="showInfo()"

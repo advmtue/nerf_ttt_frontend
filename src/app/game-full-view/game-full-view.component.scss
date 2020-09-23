@@ -1,0 +1,83 @@
+@import '../../styles.scss';
+
+.roleinfo {
+    margin-top: 0.5em;
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    justify-content: space-between;
+    height: 4em;
+
+    .role {
+        flex-basis: 60%;
+        margin-right: 0.5em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+
+        .role-colour {
+            width: 0.5em;
+            height: 100%;
+
+            &.INNOCENT {
+                background-color: $color-green-deep;
+            }
+
+            &.DETECTIVE {
+                background: $color-blue-deep;
+            }
+
+            &.TRAITOR {
+                background: $color-red-deep;
+            }
+        }
+
+        h2 {
+            flex-grow: 1;
+            text-align: center;
+            font-family: "PT Mono", monospace;
+            color: $color-text-placeholder;
+        }
+    }
+
+    .analyzer-code {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        h2 {
+            font-family: "PT Mono", monospace;
+            color: $color-text-placeholder;
+        }
+    }
+}
+
+.known-roles {
+    .players {
+        padding: 0.8em;
+        margin-bottom: 0;
+
+        h3 {
+            font-family: "PT Mono", monospace;
+            color: $color-text-placeholder;
+            font-weight: 300;
+            margin-bottom: 1em;
+        }
+
+        .playertile {
+            margin-bottom: 0.5em;
+            p {
+                text-align: right;
+                color: $color-text-placeholder;
+
+                span {
+                    margin-left: 1em;
+                    &.TRAITOR { color: $color-red-deep; }
+                    &.DETECTIVE { color: $color-blue-deep; }
+                }
+            }
+        }
+    }
+}

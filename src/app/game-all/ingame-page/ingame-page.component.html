@@ -1,1 +1,7 @@
-<p>ingame-page works!</p>
+<app-game-full-view [gameMetadata]="gameMetadata" [gameInfo]="gameInfo" [shouldShow]="shouldShowInfo"></app-game-full-view>
+
+<div class="stick-to-bottom">
+    <div class="button red-bg" (click)="startConfirmDeath()">Confirm Your Death</div>
+    <div class="button green-bg" (touchstart)="showInfo()" (touchend)="hideInfo()" (mousedown)="showInfo()"
+        (mouseup)="hideInfo()">Hold: Show Info</div>
+</div>
