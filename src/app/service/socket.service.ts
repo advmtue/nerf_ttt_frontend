@@ -26,27 +26,6 @@ export class SocketService {
   }
 
   /**
-   * Notifies the socket server that the client wants updates for a 
-   * given lobby id.
-   *
-   * @param lobbyId Lobby Id / Code
-   */
-  public joinLobby(lobbyId: string) {
-    console.log('[SOCKET] Joining lobby');
-    this._io.emit('joinLobby', {lobbyId});
-  }
-
-  /**
-   * Notifies the socket server that the client no longer wants updates 
-   * for a given lobby id.
-   * 
-   * @param lobbyId Lobby Id / Code
-   */
-  public leaveLobby(lobbyId: string) {
-    this._io.emit('leaveLobby', {lobbyId});
-  }
-
-  /**
    * Notifies the socket server that the client wants updates for a
    * given game Id.
    * 
@@ -67,17 +46,18 @@ export class SocketService {
   }
 
   /**
-   * Triggered whenever a player joins a lobby that the client is recieving
+   * Triggered whenever a player joins a game that the client is recieving
    * updates for.
    * 
-   * @param lobbyId Lobby ID
-   * @returns An observable emitting lobbyPlayers
+   * @param lobbyId Game ID
+   * @returns An observable emitting gamePlayers
    */
-  public onLobbyPlayerJoin(lobbyId: string): Observable<LobbyPlayer> {
+  public onGamePlayerJoin(gameId: string): Observable<LobbyPlayer> {
     return new Observable(sub => {
-      this._io.on('lobbyPlayerJoin', (data: SocketMessage<LobbyPlayer>) => { 
-        console.log(`[SOCKET] Got lobbyPlayerJoin`);
-        if (data.scopeId === lobbyId) {
+      this._io.on('gamePlayerJoin', (data: SocketMessage<LobbyPlayer>) => { 
+        console.log(`[SOCKET] Got gamePlayerJoin`);
+
+        if (data.scopeId === gameId) {
           sub.next(data.payload);
         }
       });
@@ -85,16 +65,17 @@ export class SocketService {
   }
 
   /**
-   * Triggered whenever a player leaves a lobby that the client is receiving
+   * Triggered whenever a player leaves a game that the client is receiving
    * updates for
    * 
-   * @param lobbyId Lobby ID
+   * @param gameId Game ID
    * @returns An observable emitting player Id's
    */
-  public onLobbyPlayerLeave(lobbyId: string): Observable<string> {
+  public onGamePlayerLeave(gameId: string): Observable<string> {
     return new Observable(sub => {
-      this._io.on('lobbyPlayerLeave', (data: SocketMessage<string>) => { 
-        if (data.scopeId === lobbyId) {
+      this._io.on('gamePlayerLeave', (data: SocketMessage<string>) => { 
+
+        if (data.scopeId === gameId) {
           sub.next(data.payload);
         }
       });
@@ -105,14 +86,15 @@ export class SocketService {
    * Triggered whenever a player readies up in a lobby the client is
    * recieving updates for.
    * 
-   * @param lobbyId Lobby ID
+   * @param gameId Lobby ID
    * @returns An observable emitting lobbyPlayers
    */
-  public onLobbyPlayerReady(lobbyId: string): Observable<string> {
+  public onGamePlayerReady(gameId: string): Observable<string> {
     return new Observable(sub => {
-      this._io.on('lobbyPlayerReady', (data: SocketMessage<string>) => { 
-        console.log(`[SOCKET] Got lobbyPlayerReady`);
-        if (data.scopeId === lobbyId) {
+      this._io.on('gamePlayerReady', (data: SocketMessage<string>) => { 
+        console.log(`[SOCKET] Got gamePlayerReady`);
+
+        if (data.scopeId === gameId) {
           sub.next(data.payload);
         }
       });
@@ -123,14 +105,15 @@ export class SocketService {
    * Triggered whenever a player unreadies in a lobby the client is
    * recieving updates for.
    * 
-   * @param lobbyId Lobby ID
+   * @param gameId Lobby ID
    * @returns An observable emitting player Ids
    */
-  public onLobbyPlayerUnready(lobbyId: string): Observable<string> {
+  public onGamePlayerUnready(gameId: string): Observable<string> {
     return new Observable(sub => {
-      this._io.on('lobbyPlayerUnready', (data: SocketMessage<string>) => { 
-        console.log(`[SOCKET] Got lobbyPlayerUnready`);
-        if (data.scopeId === lobbyId) {
+      this._io.on('gamePlayerUnready', (data: SocketMessage<string>) => { 
+        console.log(`[SOCKET] Got gamePlayerUnready`);
+
+        if (data.scopeId === gameId) {
           sub.next(data.payload);
         }
       });
@@ -140,14 +123,15 @@ export class SocketService {
   /**
    * Triggered when a lobby closes that hte client is recieving updates for
    * 
-   * @param lobbyId Lobby ID
+   * @param gameId Lobby ID
    * @returns An observable emitting player Ids
    */
-  public onLobbyClose(lobbyId: string): Observable<string> {
+  public onGameClose(gameId: string): Observable<string> {
     return new Observable(sub => {
-      this._io.on('lobbyClose', (data: SocketMessage<string>) => { 
-        console.log(`[SOCKET] Got lobbyClose`);
-        if (data.scopeId === lobbyId) {
+      this._io.on('gameClose', (data: SocketMessage<string>) => { 
+        console.log(`[SOCKET] Got gameClose`);
+
+        if (data.scopeId === gameId) {
           sub.next(data.payload);
         }
       });
@@ -157,14 +141,15 @@ export class SocketService {
   /**
    * Triggered when a lobby launches that the client is recieving updates for
    * 
-   * @param lobbyId Lobby ID
+   * @param gameId Lobby ID
    * @returns An observable emitting a gameId
    */
-  public onLobbyLaunch(lobbyId: string): Observable<string> {
+  public onGameLaunch(gameId: string): Observable<string> {
     return new Observable(sub => {
-      this._io.on('lobbyLaunch', (data: SocketMessage<string>) => { 
-        console.log(`[SOCKET] Got lobbyLaunch`);
-        if (data.scopeId === lobbyId) {
+      this._io.on('gameLaunch', (data: SocketMessage<string>) => { 
+        console.log(`[SOCKET] Got gameLaunch`);
+
+        if (data.scopeId === gameId) {
           sub.next(data.payload);
         }
       });
@@ -174,13 +159,14 @@ export class SocketService {
   /**
    * Triggered when a game starts that the client is recieving updates for
    * 
-   * @param lobbyId Lobby ID
+   * @param lobbyId Game ID
    * @returns An observable emitting a gameId
    */
   public onGameStart(gameId: string): Observable<string> {
     return new Observable(sub => {
       this._io.on('gameStart', (data: SocketMessage<string>) => { 
         console.log(`[SOCKET] Got gameStart`);
+
         if (data.scopeId === gameId) {
           sub.next(data.payload);
         }

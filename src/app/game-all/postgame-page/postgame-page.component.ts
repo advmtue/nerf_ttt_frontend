@@ -8,8 +8,8 @@ import GameMetadata from 'src/types/GameMetadata';
   styleUrls: ['./postgame-page.component.scss']
 })
 export class PostgamePageComponent implements OnInit {
-  @Input() gameInfo: GameInfo;
-  @Input() gameMetadata: GameMetadata;
+  @Input() info: GameInfo;
+  @Input() metadata: GameMetadata;
 
   constructor() { }
 

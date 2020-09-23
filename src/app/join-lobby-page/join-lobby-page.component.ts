@@ -26,11 +26,11 @@ export class JoinLobbyPageComponent implements OnInit {
       return;
     }
 
-    let lobbyCode: string = this.lobbyCodeControl.value;
-    lobbyCode = lobbyCode.toUpperCase();
+    let gameCode: string = this.lobbyCodeControl.value;
+    gameCode = gameCode.toUpperCase();
 
-    this.apiService.getLobbyMetadata(lobbyCode).subscribe({
-      next: (lobbyInfo) => this.router.navigate(["/lobby", lobbyInfo.code]),
+    this.apiService.getGameMetadata(gameCode).subscribe({
+      next: (gameInfo) => this.router.navigate(["/game", gameInfo.code]),
       error: (err) => this.onJoinLobbyError(err.error)
     });
   }

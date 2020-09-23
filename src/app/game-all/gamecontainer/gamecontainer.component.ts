@@ -4,8 +4,6 @@ import { ApiService } from 'src/app/service/api.service';
 import GameMetadata from 'src/types/GameMetadata';
 import { SocketService } from 'src/app/service/socket.service';
 import { Subscription } from 'rxjs';
-import { pluck } from 'rxjs/operators';
-import GamePlayerInfo from 'src/types/GameInfo';
 
 @Component({
   selector: 'app-gamecontainer',
@@ -13,9 +11,7 @@ import GamePlayerInfo from 'src/types/GameInfo';
   styleUrls: ['./gamecontainer.component.scss']
 })
 export class GamecontainerComponent implements OnInit, OnDestroy {
-  public gameData: GameMetadata = null;
-  public gameInfo: GamePlayerInfo = null;
-
+  public metadata: GameMetadata = null;
   public subscriptions = new Subscription();
 
   constructor(
@@ -37,8 +33,8 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.gameData) {
-      this._socketService.leaveGame(this.gameData.gameId);
+    if (this.metadata) {
+      this._socketService.leaveGame(this.metadata.code);
     }
 
     this.subscriptions.unsubscribe();
@@ -46,26 +42,28 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
 
   private initializeGamestate(gameId: string) {
     // TODO Clean up these calls and see if it can be combined into just one
-    this._apiService.getGameMetadata(gameId).subscribe(lobbyData => {
-      if (lobbyData.status === 'CLOSED') {
-        this._router.navigate(['/']);
-        return;
+    this._apiService.getGameMetadata(gameId).subscribe({
+      next: (lobbyData) => {
+        if (lobbyData.status === 'CLOSED') {
+          this._router.navigate(['/']);
+          return;
+        }
+
+        console.log(lobbyData);
+        this.metadata = lobbyData;
+      },
+      error: (error) => {
+        if (error.error.code === "ERR_GAME_NOT_FOUND") {
+          this._router.navigate(['/']);
+        }
       }
-
-      console.log(lobbyData);
-      this.gameData = lobbyData;
-    });
-
-    this._apiService.getGameInfo(gameId).subscribe(gameInfo => {
-      console.log(gameInfo);
-      this.gameInfo = gameInfo;
     });
 
     // Listen for game start
     this.subscriptions.add(
       this._socketService.onGameStart(gameId).subscribe(state => {
         console.log('[GameContainer] Recieved game start event :', state);
-        this.gameData.status = 'INGAME'; 
+        this.metadata.status = 'INGAME'; 
       })
     );
 
@@ -73,9 +71,17 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this._socketService.onGameEnd(gameId).subscribe(state => {
         console.log('[GameContainer] Recieved game end event :', state);
-        this.gameData.status = 'POSTGAME';
+        this.metadata.status = 'POSTGAME';
       })
     );
+
+    // Listen for game launch
+    this.subscriptions.add(
+      this._socketService.onGameLaunch(gameId).subscribe(state => {
+        console.log('[GameContainer] Recieved game launch event :', state);
+        this.metadata.status = 'PREGAME';
+      })
+    )
 
     // Join the game
     this._socketService.joinGame(gameId);

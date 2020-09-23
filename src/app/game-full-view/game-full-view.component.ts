@@ -9,8 +9,8 @@ import GameMetadata from 'src/types/GameMetadata';
 })
 export class GameFullViewComponent implements OnInit {
   @Input() shouldShow: boolean;
-  @Input() gameInfo: GameInfo;
-  @Input() gameMetadata: GameMetadata;
+  @Input() info: GameInfo;
+  @Input() metadata: GameMetadata;
 
   constructor() { }
 

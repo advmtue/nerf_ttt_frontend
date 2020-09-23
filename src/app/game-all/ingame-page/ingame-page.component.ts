@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/service/api.service';
 import GameInfo from 'src/types/GameInfo';
 import GameMetadata from 'src/types/GameMetadata';
 
@@ -8,8 +9,8 @@ import GameMetadata from 'src/types/GameMetadata';
   styleUrls: ['./ingame-page.component.scss']
 })
 export class IngamePageComponent implements OnInit {
-  @Input() gameInfo: GameInfo;
-  @Input() gameMetadata: GameMetadata;
+  @Input() info: GameInfo;
+  @Input() metadata: GameMetadata;
 
   shouldShowInfo = false;
   showDeathSelector = false;
@@ -17,9 +18,11 @@ export class IngamePageComponent implements OnInit {
   // Player (or "I don't know") who killed this player
   selectedKiller = null;
 
-  constructor() { }
+  constructor(private _apiService: ApiService) { }
 
   ngOnInit(): void {
+    // Get game filtered information
+    this._apiService.getGameInfo(this.metadata.code).subscribe(gameInfo => this.info = gameInfo);
   }
 
   showInfo() {

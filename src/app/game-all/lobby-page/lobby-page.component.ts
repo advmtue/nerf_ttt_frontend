@@ -1,15 +1,14 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 // Services
-import { ApiService } from '../service/api.service';
-import { SocketService } from '../service/socket.service';
-import { TokenService } from '../service/token.service';
+import { ApiService } from '../../service/api.service';
+import { SocketService } from '../../service/socket.service';
 // Types
 import GameMetadata from 'src/types/GameMetadata';
 import LobbyPlayer from 'src/types/LobbyPlayer';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
-import LobbyMetadata from 'src/types/LobbyMetadata';
+import GameInfo from 'src/types/GameInfo';
 
 @Component({
   selector: 'app-lobbypage',
@@ -17,9 +16,9 @@ import LobbyMetadata from 'src/types/LobbyMetadata';
   styleUrls: ['./lobby-page.component.scss']
 })
 export class LobbyPageComponent implements OnInit, OnDestroy {
-  lobbyMetadata: LobbyMetadata = undefined;
-  lobbyPlayers: LobbyPlayer[] = [];
+  @Input() metadata: GameMetadata;
 
+  lobbyPlayers: LobbyPlayer[] = [];
   private subscriptions = new Subscription();
 
   constructor(
@@ -31,20 +30,13 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this._route.params.subscribe(params => {
-      if (!params.lobbyId) {
-        console.log('[LobbyComponent] Could not find lobbyId from route');
-        return;
-      }
-
-      this.onInitLobbyId(params.lobbyId);
-    })
+    this.onInitLobbyId(this.metadata.code);
   }
 
   ngOnDestroy(): void {
     this.dropSocketConnections();
 
-    if (this.lobbyMetadata) {
+    if (this.metadata) {
       this.leaveLobby();
     }
   }
@@ -52,45 +44,38 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
   createSocketSubscriptions(lobbyId: string) {
     console.log('[LobbyComponent] Initializing Lobby');
-    // Join lobby
-    this._socketService.joinLobby(lobbyId);
-
     // Player Join
     this.subscriptions.add(
-      this._socketService.onLobbyPlayerJoin(lobbyId).subscribe(this.onPlayerJoin.bind(this))
+      this._socketService.onGamePlayerJoin(lobbyId).subscribe(this.onPlayerJoin.bind(this))
     );
 
     // Player Leave
     this.subscriptions.add(
-      this._socketService.onLobbyPlayerLeave(lobbyId).subscribe(this.onPlayerLeave.bind(this))
+      this._socketService.onGamePlayerLeave(lobbyId).subscribe(this.onPlayerLeave.bind(this))
     );
 
     // TODO
     // Player Ready
     this.subscriptions.add(
-      this._socketService.onLobbyPlayerReady(lobbyId).subscribe(this.onPlayerReady.bind(this))
+      this._socketService.onGamePlayerReady(lobbyId).subscribe(this.onPlayerReady.bind(this))
     );
 
     // Player Unready
     this.subscriptions.add(
-      this._socketService.onLobbyPlayerUnready(lobbyId).subscribe(this.onPlayerUnready.bind(this))
+      this._socketService.onGamePlayerUnready(lobbyId).subscribe(this.onPlayerUnready.bind(this))
     );
 
     // Lobby closed
     this.subscriptions.add(
-      this._socketService.onLobbyClose(lobbyId).subscribe(this.onLobbyClosed.bind(this))
-    );
-
-    this.subscriptions.add(
-      this._socketService.onLobbyLaunch(lobbyId).subscribe(this.onLobbyLaunch.bind(this))
+      this._socketService.onGameClose(lobbyId).subscribe(this.onLobbyClosed.bind(this))
     );
   }
 
   dropSocketConnections() {
     this.subscriptions.unsubscribe();
 
-    if (this.lobbyMetadata) {
-      this._socketService.leaveLobby(this.lobbyMetadata.code);
+    if (this.metadata) {
+      this._socketService.leaveGame(this.metadata.code);
     }
   }
 
@@ -105,15 +90,6 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
           break;
       }
     })
-
-    this._apiService.getLobbyMetadata(lobbyId).subscribe({
-      next: (lobbyInfo) => this.lobbyMetadata = lobbyInfo,
-      error: (error) => {
-        if (error.error.code === 'ERR_LOBBY_NOT_FOUND') {
-          this._router.navigate(['/landing']);
-        }
-      }
-    });
 
     // Pull lobby players
     this._apiService.getLobbyPlayers(lobbyId).subscribe((p) => {
@@ -210,7 +186,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * Check if the localPlayer is the lobby onwer
    */
   localPlayerIsOwner(): boolean {
-    return this._userService.id === this.lobbyMetadata.ownerId;
+    return this._userService.id === this.metadata.ownerId;
   }
 
   /**
@@ -224,41 +200,41 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * Attempt to join the lobby
    */
   joinLobby() {
-    this._apiService.joinLobby(this.lobbyMetadata.code).subscribe();
+    this._apiService.joinLobby(this.metadata.code).subscribe();
   }
 
   /**
    * Attempt to leave the lobby
    */
   leaveLobby() {
-    this._apiService.leaveLobby(this.lobbyMetadata.code).subscribe();
+    this._apiService.leaveLobby(this.metadata.code).subscribe();
   }
 
   /**
    * Attempt to set ready status to 'ready'
    */
   setReady() {
-    this._apiService.setLobbyPlayerReady(this.lobbyMetadata.code).subscribe();
+    this._apiService.setLobbyPlayerReady(this.metadata.code).subscribe();
   }
 
   /**
    * Attempt to set ready status to 'unready'
    */
   setUnready() {
-    this._apiService.setLobbyPlayerUnready(this.lobbyMetadata.code).subscribe();
+    this._apiService.setLobbyPlayerUnready(this.metadata.code).subscribe();
   }
 
   /**
    * As the lobby owner, attempt to start the lobby.
    */
-  ownerStartLobby() {
-    this._apiService.startLobby(this.lobbyMetadata.code).subscribe(console.log);
+  ownerLaunchGame() {
+    this._apiService.launchGame(this.metadata.code).subscribe();
   }
 
   /**
    * As an admin, attempt to close the lobby.
    */
   adminCloseLobby() {
-    this._apiService.closeLobby(this.lobbyMetadata.code).subscribe();
+    this._apiService.closeLobby(this.metadata.code).subscribe();
   }
 }

@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import GameMetadata from 'src/types/GameMetadata';
 import LobbyPlayer from 'src/types/LobbyPlayer';
 import Profile from 'src/types/UserProfile';
-import LobbyMetadata from 'src/types/LobbyMetadata';
 import { pluck } from 'rxjs/operators';
 import GameInfo from 'src/types/GameInfo';
 
@@ -34,20 +33,16 @@ export class ApiService {
     return this.httpClient.post<{ success: boolean }>(`${this.apiUrl}/user/@register`, { name: displayName });
   }
 
-  createLobby(): Observable<LobbyMetadata> {
-    return this.httpClient.post<LobbyMetadata>(`${this.apiUrl}/lobby`, {});
+  createLobby(): Observable<GameMetadata> {
+    return this.httpClient.post<GameMetadata>(`${this.apiUrl}/game`, {});
   }
 
-  getLobbyMetadata(lobbyId: string): Observable<LobbyMetadata> {
-    return this.httpClient.get<LobbyMetadata>(`${this.apiUrl}/lobby/${lobbyId}`);
+  getGameMetadata(lobbyId: string): Observable<GameMetadata> {
+    return this.httpClient.get<GameMetadata>(`${this.apiUrl}/game/${lobbyId}`);
   }
 
   closeLobby(lobbyId: string): Observable<{ lobbyId: string }> {
-    return this.httpClient.delete<{ lobbyId: string }>(`${this.apiUrl}/lobby/${lobbyId}`);
-  }
-
-  getGameMetadata(gameId: string): Observable<GameMetadata> {
-    return this.httpClient.get<GameMetadata>(`${this.apiUrl}/game/${gameId}`);
+    return this.httpClient.delete<{ lobbyId: string }>(`${this.apiUrl}/game/${lobbyId}`);
   }
 
   getGameInfo(gameId: string): Observable<GameInfo> {
@@ -55,27 +50,27 @@ export class ApiService {
   }
 
   getLobbyPlayers(lobbyId: string): Observable<LobbyPlayer[]> {
-    return this.httpClient.get<LobbyPlayer[]>(`${this.apiUrl}/lobby/${lobbyId}/players`);
+    return this.httpClient.get<LobbyPlayer[]>(`${this.apiUrl}/game/${lobbyId}/players`);
   }
 
   joinLobby(lobbyId: string): Observable<boolean> {
-    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/lobby/${lobbyId}/join`).pipe<boolean>(pluck('success'));
+    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/game/${lobbyId}/join`).pipe<boolean>(pluck('success'));
   }
 
   leaveLobby(lobbyId: string): Observable<boolean> {
-    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/lobby/${lobbyId}/leave`).pipe<boolean>(pluck('success'));
+    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/game/${lobbyId}/leave`).pipe<boolean>(pluck('success'));
   }
 
   setLobbyPlayerReady(lobbyId: string): Observable<boolean> {
-    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/lobby/${lobbyId}/ready`).pipe(pluck('success'));
+    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/game/${lobbyId}/ready`).pipe(pluck('success'));
   }
 
   setLobbyPlayerUnready(lobbyId: string): Observable<boolean> {
-    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/lobby/${lobbyId}/unready`).pipe(pluck('success'));
+    return this.httpClient.get<{ success: boolean }>(`${this.apiUrl}/game/${lobbyId}/unready`).pipe(pluck('success'));
   }
 
-  startLobby(lobbyId: string): Observable<string> {
-    return this.httpClient.get<string>(`${this.apiUrl}/lobby/${lobbyId}/start`, {});
+  launchGame(lobbyId: string): Observable<string> {
+    return this.httpClient.get<string>(`${this.apiUrl}/game/${lobbyId}/launch`);
   }
 
   startGame(gameId: string): Observable<void> {

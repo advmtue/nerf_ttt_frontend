@@ -10,14 +10,17 @@ import GameMetadata from 'src/types/GameMetadata';
   styleUrls: ['./pregame-page.component.scss']
 })
 export class PregamePageComponent implements OnInit {
-  @Input() gameMetadata: GameMetadata;
-  @Input() gameInfo: GameInfo;
+  @Input() metadata: GameMetadata;
+  info: GameInfo = undefined;
 
   public shouldShowInfo = false;
 
   constructor(private _userService: UserService, private _apiService: ApiService) { }
 
   ngOnInit(): void {
+    this._apiService.getGameInfo(this.metadata.code).subscribe(info => {
+      this.info = info;
+    })
   }
 
   hideInfo() {
@@ -29,10 +32,10 @@ export class PregamePageComponent implements OnInit {
   }
 
   startGame() {
-    this._apiService.startGame(this.gameMetadata.gameId).subscribe()
+    this._apiService.startGame(this.metadata.code).subscribe()
   }
 
   public localPlayerIsGamemaster(): boolean {
-    return this.gameMetadata.ownerId === this._userService.id;
+    return this.metadata.ownerId === this._userService.id;
   }
 }

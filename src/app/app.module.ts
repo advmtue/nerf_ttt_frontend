@@ -15,7 +15,7 @@ import { LogoutPageComponent } from './logout-page/logout-page.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 // Game states
-import { LobbyPageComponent } from './lobby-page/lobby-page.component';
+import { LobbyPageComponent } from './game-all/lobby-page/lobby-page.component';
 import { IngamePageComponent } from './game-all/ingame-page/ingame-page.component';
 import { PregamePageComponent } from './game-all/pregame-page/pregame-page.component';
 import { PostgamePageComponent } from './game-all/postgame-page/postgame-page.component';

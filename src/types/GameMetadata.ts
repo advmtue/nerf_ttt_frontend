@@ -1,11 +1,15 @@
 export default interface GameMetadata {
-  gameId: string;
+  code: string;
+
   dateCreated: string;
-  dateEnded: string;
+  dateLaunched: string;
   dateStarted: string;
+  dateEnded: string;
+
   ownerId: string;
   ownerName: string;
+  
   status: string;
-  lobbyCode: string;
   winningTeam: string;
+  nextGameCode: string;
 }

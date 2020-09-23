@@ -1,8 +1,9 @@
-<div *ngIf="gameData && gameInfo; else noData">
-  <div [ngSwitch]="gameData.status">
-    <app-pregame-page *ngSwitchCase="'PREGAME'" [gameMetadata]='gameData' [gameInfo]='gameInfo'></app-pregame-page>
-    <app-ingame-page *ngSwitchCase="'INGAME'"   [gameMetadata]='gameData' [gameInfo]='gameInfo'></app-ingame-page>
-    <app-postgame-page *ngSwitchCase="'POSTGAME'" [gameMetadata]='gameData' [gameInfo]='gameInfo'></app-postgame-page>
+<div *ngIf="metadata; else noData">
+  <div [ngSwitch]="metadata.status">
+    <app-lobbypage *ngSwitchCase="'LOBBY'" [metadata]='metadata'></app-lobbypage>
+    <app-pregame-page *ngSwitchCase="'PREGAME'" [metadata]='metadata'></app-pregame-page>
+    <app-ingame-page *ngSwitchCase="'INGAME'"   [metadata]='metadata'></app-ingame-page>
+    <app-postgame-page *ngSwitchCase="'POSTGAME'" [metadata]='metadata'></app-postgame-page>
   </div>
 </div>
 
