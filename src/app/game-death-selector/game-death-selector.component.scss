@@ -1,0 +1,33 @@
+@import '../../styles.scss';
+
+.killer-info {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 1em;
+    text-align: center;
+
+    h3 {
+        color: $color-text-placeholder;
+    }
+
+    h2 {
+        margin-bottom: 1em;
+    }
+}
+
+.player-list {
+    .player-tile {
+        padding: 0.5em 0.5em 0.5em 1.5em;
+        border: 2px solid #00000000;
+        margin-bottom: 0.5em;
+
+        &.unknown {
+            background-color: $color-blue-deep;
+            color: $color-text-placeholder;
+        }
+
+        &.selected {
+            border: 2px solid white;
+        }
+    }
+}

@@ -1,9 +1,32 @@
-<app-game-full-view [metadata]="metadata" [info]="info" [shouldShow]="shouldShowInfo"></app-game-full-view>
+<div *ngIf="info">
+    <div *ngIf="showDeathSelector then deathSelector; else default"></div>
 
-<div class="stick-to-bottom">
-    <div *ngIf="info && info.alive">
-        <div class="button red-bg" (click)="startConfirmDeath()">Confirm Your Death</div>
-        <div class="button green-bg" (touchstart)="showInfo()" (touchend)="hideInfo()" (mousedown)="showInfo()"
-            (mouseup)="hideInfo()">Hold: Show Info</div>
-    </div>
+    <ng-template #deathSelector>
+        <app-game-death-selector [players]="info.players" (confirmKiller)="confirmKiller($event)"
+            (cancel)="cancelConfirm()"></app-game-death-selector>
+    </ng-template>
+
+    <ng-template #default>
+        <app-game-full-view [metadata]="metadata" [info]="info" [shouldShow]="shouldShowInfo"></app-game-full-view>
+
+        <div *ngIf="info.alive; else dead">
+            <div class="stick-to-bottom">
+                <div class="button red-bg" (click)="startConfirmDeath()">Confirm Your Death</div>
+                <div class="button green-bg" (touchstart)="showInfo()" (touchend)="hideInfo()" (mousedown)="showInfo()"
+                    (mouseup)="hideInfo()">Hold: Show Info</div>
+            </div>
+        </div>
+
+        <ng-template #dead>
+            <div class="dead">
+                <div class="container analyzer">
+                    <h2>Analyzer Code: {{ info.analyzerCode }}</h2>
+                </div>
+                <div class="warning">
+                    <p>You're Dead.</p>
+                    <p>Place your role card face down on the ground in front of you.</p>
+                </div>
+            </div>
+        </ng-template>
+    </ng-template>
 </div>

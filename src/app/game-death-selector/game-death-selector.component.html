@@ -1,0 +1,24 @@
+<div class="button red-bg" (click)="goBack()">Back</div>
+
+<div class="killer-info container">
+    <h3>Killed By</h3>
+    <div *ngIf="selectedPlayer; else noPlayer">
+        <h2>{{ selectedPlayer.name }}</h2>
+        <div class="button green-bg" (click)="confirm()">Confirm</div>
+    </div>
+    <ng-template #noPlayer>
+        <h2 *ngIf="!selectedPlayer">-- Please Select --</h2>
+        <div class="button">...</div>
+    </ng-template>
+</div>
+
+<div class="player-list">
+    <div class="player-tile container noselect unknown" (click)="select(unknownPlayer)"
+        [class.selected]="selectedPlayer === unknownPlayer">
+        <p>I don't know</p>
+    </div>
+    <div *ngFor="let player of players" class="player-tile container noselect" (click)="select(player)"
+        [class.selected]="selectedPlayer === player">
+        <p>{{ player.name }}</p>
+    </div>
+</div>

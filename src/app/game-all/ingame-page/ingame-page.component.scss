@@ -1,7 +1,31 @@
+@import "../../../styles.scss";
+
 .stick-to-bottom {
     padding: 1em;
 
     .button:first-child {
         margin-bottom: 1em;
+    }
+}
+
+.dead {
+    .analyzer {
+        padding: 0.5em;
+
+        h2 {
+            text-align: center;
+            color: $color-text-placeholder;
+            font-family: "PT Mono", monospace;
+            font-weight: 300;
+        }
+    }
+
+    .warning {
+        margin-top: 3em;
+        p {
+            margin-top: 1em;
+            text-align: center;
+            color: $color-text-placeholder;
+        }
     }
 }

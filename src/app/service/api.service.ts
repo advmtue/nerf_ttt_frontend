@@ -76,4 +76,8 @@ export class ApiService {
   startGame(gameId: string): Observable<void> {
     return this.httpClient.get<void>(`${this.apiUrl}/game/${gameId}/start`);
   }
+
+  confirmKiller(gameId: string, killerId: string): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiUrl}/game/${gameId}/confirmkiller`, {killerId});
+  }
 }
