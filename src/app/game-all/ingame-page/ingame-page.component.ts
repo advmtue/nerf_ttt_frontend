@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
-import GameInfo from 'src/types/GameInfo';
+import GameInfo, { GamePlayerBasic } from 'src/types/GameInfo';
 import GameMetadata from 'src/types/GameMetadata';
 
 @Component({
@@ -37,7 +37,7 @@ export class IngamePageComponent implements OnInit {
     this.showDeathSelector = true;
   }
 
-  confirmDeath(killerId: string): void {
-    // API call
+  confirmDeath(player: GamePlayerBasic) {
+
   }
 }

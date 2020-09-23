@@ -5,7 +5,7 @@ import { ApiService } from '../../service/api.service';
 import { SocketService } from '../../service/socket.service';
 // Types
 import GameMetadata from 'src/types/GameMetadata';
-import GamePlayer from 'src/types/LobbyPlayer';
+import GamePlayer from 'src/types/GamePlayer';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
 

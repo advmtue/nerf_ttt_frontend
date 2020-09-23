@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import GameMetadata from 'src/types/GameMetadata';
-import GamePlayer from 'src/types/LobbyPlayer';
+import GamePlayer from 'src/types/GamePlayer';
 import Profile from 'src/types/UserProfile';
 import { pluck } from 'rxjs/operators';
 import GameInfo from 'src/types/GameInfo';

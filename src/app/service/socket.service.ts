@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import GamePlayer from 'src/types/LobbyPlayer';
+import GamePlayer from 'src/types/GamePlayer';
 import * as socketio from 'socket.io-client';
 import SocketMessage from 'src/types/SocketMessage';
 
