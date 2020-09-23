@@ -9,11 +9,11 @@ import GameMetadata from 'src/types/GameMetadata';
   styleUrls: ['./ingame-page.component.scss']
 })
 export class IngamePageComponent implements OnInit {
-  @Input() info: GameInfo;
   @Input() metadata: GameMetadata;
 
   shouldShowInfo = false;
   showDeathSelector = false;
+  info: GameInfo = null;
 
   // Player (or "I don't know") who killed this player
   selectedKiller = null;
@@ -22,7 +22,10 @@ export class IngamePageComponent implements OnInit {
 
   ngOnInit(): void {
     // Get game filtered information
-    this._apiService.getGameInfo(this.metadata.code).subscribe(gameInfo => this.info = gameInfo);
+    this._apiService.getGameInfo(this.metadata.code).subscribe(gameInfo => {
+      console.log(gameInfo);
+      this.info = gameInfo
+    });
   }
 
   showInfo() {

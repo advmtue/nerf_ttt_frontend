@@ -1,7 +1,9 @@
 <app-game-full-view [metadata]="metadata" [info]="info" [shouldShow]="shouldShowInfo"></app-game-full-view>
 
 <div class="stick-to-bottom">
-    <div class="button red-bg" (click)="startConfirmDeath()">Confirm Your Death</div>
-    <div class="button green-bg" (touchstart)="showInfo()" (touchend)="hideInfo()" (mousedown)="showInfo()"
-        (mouseup)="hideInfo()">Hold: Show Info</div>
+    <div *ngIf="info && info.alive">
+        <div class="button red-bg" (click)="startConfirmDeath()">Confirm Your Death</div>
+        <div class="button green-bg" (touchstart)="showInfo()" (touchend)="hideInfo()" (mousedown)="showInfo()"
+            (mouseup)="hideInfo()">Hold: Show Info</div>
+    </div>
 </div>

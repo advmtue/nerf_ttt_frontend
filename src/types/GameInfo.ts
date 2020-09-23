@@ -2,6 +2,7 @@ export default interface GameInfo {
   role: string;
   analyzerCode: string;
   players: GamePlayerBasic[];
+  alive: boolean;
 
   scansRemaining?: number;
   lastScanTime?: number;

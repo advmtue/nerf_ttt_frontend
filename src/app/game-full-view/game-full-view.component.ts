@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import GameInfo from 'src/types/GameInfo';
 import GameMetadata from 'src/types/GameMetadata';
-import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-game-full-view',
@@ -13,14 +12,9 @@ export class GameFullViewComponent implements OnInit {
   @Input() info: GameInfo;
   @Input() metadata: GameMetadata;
 
-  constructor(private _apiService: ApiService) { }
+  constructor() { }
 
-  ngOnInit(): void {
-    this._apiService.getGameInfo(this.metadata.code).subscribe(info => {
-      console.log(info);
-      this.info = info;
-    })
-  }
+  ngOnInit(): void {}
 
   knownRoles() {
     return this.info.players.filter(p => p.role !== 'INNOCENT');
