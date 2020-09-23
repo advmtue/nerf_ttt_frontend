@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService } from '../service/api.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _apiService: ApiService,
+    private _router: Router,
+  ) { }
 
   ngOnInit(): void {
   }
 
+  createLobby() {
+    this._apiService.createLobby().subscribe(lobbyMetadata => {
+      this._router.navigate(['/lobby', lobbyMetadata.code]);
+    })
+  }
 }

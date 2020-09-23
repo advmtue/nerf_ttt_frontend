@@ -25,7 +25,6 @@ import { AuthPageComponent } from './auth-page/auth-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { JoinLobbyPageComponent } from './join-lobby-page/join-lobby-page.component';
-import { CreateLobbyPageComponent } from './create-lobby-page/create-lobby-page.component';
 import { GameStatusViewComponent } from './game-status-view/game-status-view.component';
 import { GameFullViewComponent } from './game-full-view/game-full-view.component';
 
@@ -45,7 +44,6 @@ import { GameFullViewComponent } from './game-full-view/game-full-view.component
     RegistrationPageComponent,
     LandingPageComponent,
     JoinLobbyPageComponent,
-    CreateLobbyPageComponent,
     GameStatusViewComponent,
     GameFullViewComponent
   ],

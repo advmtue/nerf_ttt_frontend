@@ -10,7 +10,6 @@ import { AuthenticatedGuard } from './authenticated.guard';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { JoinLobbyPageComponent } from './join-lobby-page/join-lobby-page.component';
 import { LobbyPageComponent } from './lobby-page/lobby-page.component';
-import { CreateLobbyPageComponent } from './create-lobby-page/create-lobby-page.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
@@ -21,7 +20,6 @@ const routes: Routes = [
   { path: 'game/:gameid', component: GamecontainerComponent, canActivate: [AuthenticatedGuard] },
   { path: "landing", component: LandingPageComponent, canActivate: [AuthenticatedGuard] },
   { path: "lobbysearch", component: JoinLobbyPageComponent, canActivate: [AuthenticatedGuard] },
-  { path: "createlobby", component: CreateLobbyPageComponent, canActivate: [AuthenticatedGuard] },
   { path: '', redirectTo: '/landing', pathMatch: 'full' }
 ];
 

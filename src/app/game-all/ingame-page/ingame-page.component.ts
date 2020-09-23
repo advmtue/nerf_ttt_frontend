@@ -12,6 +12,10 @@ export class IngamePageComponent implements OnInit {
   @Input() gameMetadata: GameMetadata;
 
   shouldShowInfo = false;
+  showDeathSelector = false;
+
+  // Player (or "I don't know") who killed this player
+  selectedKiller = null;
 
   constructor() { }
 
@@ -27,5 +31,10 @@ export class IngamePageComponent implements OnInit {
   }
 
   startConfirmDeath() {
+    this.showDeathSelector = true;
+  }
+
+  confirmDeath(killerId: string): void {
+    // API call
   }
 }

@@ -1,6 +1,5 @@
 export default interface GameMetadata {
   gameId: string;
-  name: string;
   dateCreated: string;
   dateEnded: string;
   dateStarted: string;

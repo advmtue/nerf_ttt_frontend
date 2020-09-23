@@ -10,7 +10,7 @@
         <div class="button green-bg" [routerLink]="['/lobbysearch']">
             <p>Join a Lobby</p>
         </div>
-        <div class="button blue-bg" routerLink="/createlobby">
+        <div class="button blue-bg" (click)="createLobby()">
             <p>Create a Lobby</p>
         </div>
         <div class="button">
