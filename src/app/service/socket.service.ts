@@ -190,4 +190,21 @@ export class SocketService {
       });
     })
   }
+
+  /**
+   * Triggered when a game goes to postpending that the client is recieving updates for
+   * 
+   * @param lobbyId Lobby ID
+   * @returns An observable emitting a gameId
+   */
+  public onGamePostPending(gameId: string): Observable<string> {
+    return new Observable(sub => {
+      this._io.on('confirmKills', (data: SocketMessage<string>) => { 
+        console.log(`[SOCKET] Got confirmKills`);
+        if (data.scopeId === gameId) {
+          sub.next(data.payload);
+        }
+      });
+    })
+  }
 }

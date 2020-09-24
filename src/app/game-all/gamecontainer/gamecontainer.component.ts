@@ -83,6 +83,16 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
       })
     )
 
+    // Listen for postpending
+    this.subscriptions.add(
+      this._socketService.onGamePostPending(gameId).subscribe(waitingList => {
+        console.log('[GameContainer] Recieved game postpending event ');
+        console.log(waitingList);
+
+        this.metadata.status = 'POSTPENDING';
+      })
+    )
+
     // Join the game
     this._socketService.joinGame(gameId);
   }
