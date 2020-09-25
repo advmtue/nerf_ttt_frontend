@@ -1,4 +1,4 @@
-<div class="button red-bg" (click)="goBack()">Back</div>
+<div class="button red-bg" (click)="goBack()" *ngIf="showUnknown">Back</div>
 
 <div class="killer-info container">
     <h3>Killed By</h3>
@@ -13,7 +13,7 @@
 </div>
 
 <div class="player-list">
-    <div class="player-tile container noselect unknown" (click)="select(unknownPlayer)"
+    <div class="player-tile container noselect unknown" (click)="select(unknownPlayer)" *ngIf="showUnknown"
         [class.selected]="selectedPlayer === unknownPlayer">
         <p>I don't know</p>
     </div>

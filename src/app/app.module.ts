@@ -27,6 +27,7 @@ import { JoinLobbyPageComponent } from './join-lobby-page/join-lobby-page.compon
 import { GameStatusViewComponent } from './game-status-view/game-status-view.component';
 import { GameFullViewComponent } from './game-full-view/game-full-view.component';
 import { GameDeathSelectorComponent } from './game-death-selector/game-death-selector.component';
+import { PostpendingPageComponent } from './game-all/postpending-page/postpending-page.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { GameDeathSelectorComponent } from './game-death-selector/game-death-sel
     JoinLobbyPageComponent,
     GameStatusViewComponent,
     GameFullViewComponent,
-    GameDeathSelectorComponent
+    GameDeathSelectorComponent,
+    PostpendingPageComponent
   ],
   imports: [
     BrowserModule,

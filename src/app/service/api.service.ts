@@ -5,7 +5,7 @@ import GameMetadata from 'src/types/GameMetadata';
 import GamePlayer from 'src/types/GamePlayer';
 import Profile from 'src/types/UserProfile';
 import { pluck } from 'rxjs/operators';
-import GameInfo from 'src/types/GameInfo';
+import GameInfo, { GamePlayerBasic } from 'src/types/GameInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -79,5 +79,9 @@ export class ApiService {
 
   confirmKiller(gameId: string, killerId: string): Observable<void> {
     return this.httpClient.post<void>(`${this.apiUrl}/game/${gameId}/confirmkiller`, {killerId});
+  }
+
+  getWaitingKillConfirmation(gameId: string): Observable<GamePlayerBasic[]> {
+    return this.httpClient.get<GamePlayerBasic[]>(`${this.apiUrl}/game/${gameId}/waiting_kill_confirmation`);
   }
 }

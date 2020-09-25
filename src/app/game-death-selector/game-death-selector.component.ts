@@ -10,6 +10,7 @@ import { GamePlayerBasic } from 'src/types/GameInfo';
 })
 export class GameDeathSelectorComponent implements OnInit {
   @Input() players: GamePlayerBasic[];
+  @Input() showUnknown: boolean = false;
 
   @Output() confirmKiller: Subject<GamePlayerBasic> = new Subject();
   @Output() cancel: Subject<boolean> = new Subject();

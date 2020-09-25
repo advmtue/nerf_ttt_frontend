@@ -207,4 +207,22 @@ export class SocketService {
       });
     })
   }
+
+  /**
+   * Triggered when a player confirms their killer in postpending phase
+   * 
+   * @param gameId Game ID
+   * @returns An observable emitting user Ids
+   */
+  public onPlayerConfirmKiller(gameId: string): Observable<string> {
+    return new Observable(sub => {
+      this._io.on('playerConfirmKill', (data: SocketMessage<string>) => { 
+        console.log(`[SOCKET] Got playerConfirmKill :${data.payload}`);
+
+        if (data.scopeId === gameId) {
+          sub.next(data.payload);
+        }
+      });
+    })
+  }
 }
