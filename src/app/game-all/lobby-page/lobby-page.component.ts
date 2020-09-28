@@ -4,10 +4,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApiService } from '../../service/api.service';
 import { SocketService } from '../../service/socket.service';
 // Types
-import GameMetadata from 'src/types/GameMetadata';
-import GamePlayer from 'src/types/GamePlayer';
+import { GamePlayer, LobbyPlayer } from 'src/types/Player';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
+import GameInfo from 'src/types/GameInfo';
 
 @Component({
   selector: 'app-lobbypage',
@@ -15,9 +15,8 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./lobby-page.component.scss']
 })
 export class LobbyPageComponent implements OnInit, OnDestroy {
-  @Input() metadata: GameMetadata;
+  @Input() gameInfo: GameInfo;
 
-  lobbyPlayers: GamePlayer[] = [];
   private subscriptions = new Subscription();
 
   constructor(
@@ -29,13 +28,15 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.onInitLobbyId(this.metadata.code);
+    this.onInitLobbyId(this.gameInfo.code);
   }
 
   ngOnDestroy(): void {
     this.dropSocketConnections();
 
-    if (this.metadata.status === 'LOBBY') {
+    if (this.gameInfo.status === 'LOBBY') {
+      console.log(this.gameInfo);
+      console.log("Yes");
       this.leaveLobby();
     }
   }
@@ -84,14 +85,6 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
           break;
       }
     })
-
-    // Pull lobby players
-    this._apiService.getLobbyPlayers(lobbyId).subscribe((p) => {
-      this.lobbyPlayers = p;
-
-      this.isLocalPlayerJoined();
-      this.isLocalPlayerReady();
-    });
   }
 
   /**
@@ -99,7 +92,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * @returns Player information of the localPlayer, or null if not found.
    */
   getLocalPlayer() {
-    const player = this.lobbyPlayers.find(
+    const player = this.gameInfo.lobbyPlayers.find(
       p => p.userId === this._userService.id
     );
 
@@ -121,7 +114,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    */
   isLocalPlayerReady() {
     const player = this.getLocalPlayer();
-    return (player === null) ? false : player.ready;
+    return (player === null) ? false : player.isReady;
   }
 
   /**
@@ -129,8 +122,8 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * @param playerInfo Information of the ready player
    */
   onPlayerReady(playerId: string) {
-    const idx = this.lobbyPlayers.findIndex(player => player.userId === playerId);
-    this.lobbyPlayers[idx].ready = true;
+    const idx = this.gameInfo.lobbyPlayers.findIndex(player => player.userId === playerId);
+    this.gameInfo.lobbyPlayers[idx].isReady = true;
   }
 
   /**
@@ -138,19 +131,19 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * @param playerInfo Information of the unready player
    */
   onPlayerUnready(playerId: string) {
-    const idx = this.lobbyPlayers.findIndex(player => player.userId === playerId);
-    this.lobbyPlayers[idx].ready = false;
+    const idx = this.gameInfo.lobbyPlayers.findIndex(player => player.userId === playerId);
+    this.gameInfo.lobbyPlayers[idx].isReady = false;
   }
 
   /**
    * Triggered when a player joins the game
    * @param playerInfo Information of the joining player
    */
-  onPlayerJoin(playerInfo: GamePlayer) {
+  onPlayerJoin(playerInfo: LobbyPlayer) {
     console.log(playerInfo);
-    this.lobbyPlayers = this.lobbyPlayers.filter(p => p.userId !== playerInfo.userId);
+    this.gameInfo.lobbyPlayers = this.gameInfo.lobbyPlayers.filter(p => p.userId !== playerInfo.userId);
 
-    this.lobbyPlayers.push(playerInfo);
+    this.gameInfo.lobbyPlayers.push(playerInfo);
     this.isLocalPlayerJoined();
   }
 
@@ -159,7 +152,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * @param playerInfo Information of leaving player
    */
   onPlayerLeave(playerId: string) {
-    this.lobbyPlayers = this.lobbyPlayers.filter(p => p.userId !== playerId);
+    this.gameInfo.lobbyPlayers = this.gameInfo.lobbyPlayers.filter(p => p.userId !== playerId);
     this.isLocalPlayerJoined();
   }
 
@@ -180,7 +173,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * Check if the localPlayer is the lobby onwer
    */
   localPlayerIsOwner(): boolean {
-    return this._userService.id === this.metadata.ownerId;
+    return this._userService.id === this.gameInfo.ownerId;
   }
 
   /**
@@ -194,41 +187,41 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
    * Attempt to join the lobby
    */
   joinLobby() {
-    this._apiService.joinLobby(this.metadata.code).subscribe();
+    this._apiService.joinLobby(this.gameInfo.code).subscribe();
   }
 
   /**
    * Attempt to leave the lobby
    */
   leaveLobby() {
-    this._apiService.leaveLobby(this.metadata.code).subscribe();
+    this._apiService.leaveLobby(this.gameInfo.code).subscribe();
   }
 
   /**
    * Attempt to set ready status to 'ready'
    */
   setReady() {
-    this._apiService.setLobbyPlayerReady(this.metadata.code).subscribe();
+    this._apiService.setLobbyPlayerReady(this.gameInfo.code).subscribe();
   }
 
   /**
    * Attempt to set ready status to 'unready'
    */
   setUnready() {
-    this._apiService.setLobbyPlayerUnready(this.metadata.code).subscribe();
+    this._apiService.setLobbyPlayerUnready(this.gameInfo.code).subscribe();
   }
 
   /**
    * As the lobby owner, attempt to start the lobby.
    */
   ownerLaunchGame() {
-    this._apiService.launchGame(this.metadata.code).subscribe();
+    this._apiService.launchGame(this.gameInfo.code).subscribe();
   }
 
   /**
    * As an admin, attempt to close the lobby.
    */
   adminCloseLobby() {
-    this._apiService.closeLobby(this.metadata.code).subscribe();
+    this._apiService.closeLobby(this.gameInfo.code).subscribe();
   }
 }

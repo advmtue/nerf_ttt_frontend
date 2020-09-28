@@ -1,14 +1,12 @@
-<app-game-status-view [metadata]="metadata"></app-game-status-view>
+<app-game-status-view [gameInfo]="gameInfo"></app-game-status-view>
 
 <div *ngIf="waitingForLocalPlayer() then killSelector; else waitingList"></div>
 
 <ng-template #waitingList>
-    <div *ngIf="awaitingKills.length > 0" class="kill-list">
-        <h2>Waiting on players</h2>
-        <div class="player container" *ngFor="let player of awaitingKills"><p>{{ player.name }}</p></div>
-    </div>
+    <h2>Waiting on players</h2>
+    <div class="player container" *ngFor="let player of gameInfo.waitingFor"><p>{{ player.displayName }}</p></div>
 </ng-template>
 
 <ng-template #killSelector>
-    <app-game-death-selector *ngIf="info" [players]="info.players" [showUnknown]="false" (confirmKiller)="confirmKiller($event)"></app-game-death-selector>
+    <app-game-death-selector *ngIf="gameInfo" [players]="gamePlayersFiltered()" [showUnknown]="false" (confirmKiller)="confirmKill($event)"></app-game-death-selector>
 </ng-template>

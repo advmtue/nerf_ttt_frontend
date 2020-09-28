@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import GamePlayer from 'src/types/GamePlayer';
+import { GamePlayer, GamePlayerBasic } from 'src/types/Player';
 import * as socketio from 'socket.io-client';
 import SocketMessage from 'src/types/SocketMessage';
 
@@ -197,9 +197,9 @@ export class SocketService {
    * @param lobbyId Lobby ID
    * @returns An observable emitting a gameId
    */
-  public onGamePostPending(gameId: string): Observable<string> {
+  public onGamePostPending(gameId: string): Observable<GamePlayerBasic[]> {
     return new Observable(sub => {
-      this._io.on('confirmKills', (data: SocketMessage<string>) => { 
+      this._io.on('confirmKills', (data: SocketMessage<GamePlayerBasic[]>) => { 
         console.log(`[SOCKET] Got confirmKills`);
         if (data.scopeId === gameId) {
           sub.next(data.payload);

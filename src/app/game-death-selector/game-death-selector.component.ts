@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { EventEmitter } from 'protractor';
 import { Subject } from 'rxjs';
-import { GamePlayerBasic } from 'src/types/GameInfo';
+import { GamePlayerBasic } from 'src/types/Player';
 
 @Component({
   selector: 'app-game-death-selector',
@@ -16,12 +16,12 @@ export class GameDeathSelectorComponent implements OnInit {
   @Output() cancel: Subject<boolean> = new Subject();
 
   selectedPlayer: GamePlayerBasic = null;
-  unknownPlayer: GamePlayerBasic = { userId: "UNKNOWN", name: "I don't know", role: "INNOCENT" };
+  unknownPlayer: GamePlayerBasic = { userId: "UNKNOWN", displayName: "I don't know", role: "INNOCENT" };
 
   constructor() { }
 
   ngOnInit(): void {
-    this.players.sort((a, b) => a.name < b.name ? 0 : 1);
+    this.players.sort((a, b) => a.displayName < b.displayName ? 0 : 1);
   }
 
   goBack() {

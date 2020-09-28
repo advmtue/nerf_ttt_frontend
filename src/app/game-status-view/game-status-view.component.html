@@ -1,4 +1,4 @@
-<div [ngSwitch]="metadata.status">
+<div [ngSwitch]="gameInfo.status">
     <div *ngSwitchCase="'LOBBY'">
         <div class="container pad metadata">
             <table>
@@ -8,7 +8,7 @@
                             <p>Owner:</p>
                         </td>
                         <td>
-                            <p>{{ metadata.ownerName }}</p>
+                            <p>{{ gameInfo.ownerName }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -16,7 +16,7 @@
                             <p>Date:</p>
                         </td>
                         <td>
-                            <p>{{ metadata.dateCreated | date :'short' }}</p>
+                            <p>{{ gameInfo.dateCreated | date :'short' }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -24,7 +24,7 @@
                             <p>Code:</p>
                         </td>
                         <td>
-                            <p>{{ metadata.code }}</p>
+                            <p>{{ gameInfo.code }}</p>
                         </td>
                     </tr>
                 </tbody>

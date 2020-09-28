@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
-import GameInfo, { GamePlayerBasic } from 'src/types/GameInfo';
-import GameMetadata from 'src/types/GameMetadata';
+import GameInfo from 'src/types/GameInfo';
+import { GamePlayerBasic } from 'src/types/Player';
 
 @Component({
   selector: 'app-ingame-page',
@@ -9,11 +9,10 @@ import GameMetadata from 'src/types/GameMetadata';
   styleUrls: ['./ingame-page.component.scss']
 })
 export class IngamePageComponent implements OnInit {
-  @Input() metadata: GameMetadata;
+  @Input() gameInfo: GameInfo;
 
   shouldShowInfo = false;
   showDeathSelector = false;
-  info: GameInfo = null;
 
   // Player (or "I don't know") who killed this player
   selectedKiller = null;
@@ -22,16 +21,6 @@ export class IngamePageComponent implements OnInit {
 
   ngOnInit(): void {
     // Get game filtered information
-    this._apiService.getGameInfo(this.metadata.code).subscribe(gameInfo => {
-      console.log(gameInfo);
-      this.info = gameInfo
-
-      // TODO REMOVE
-      this.info.players.push({userId: "1234", name: "Alcy Meehan", role: "DETECTIVE"});
-      this.info.players.push({userId: "1234", name: "Liam Salamy", role: "INNOCENT"});
-      this.info.players.push({userId: "1234", name: "Jordan Combridge", role: "INNOCENT"});
-      this.info.players.push({userId: "1234", name: "Ben Peel", role: "INNOCENT"});
-    });
   }
 
   showInfo() {
@@ -47,10 +36,11 @@ export class IngamePageComponent implements OnInit {
   }
 
   confirmKiller(player: GamePlayerBasic) {
-    this._apiService.confirmKiller(this.metadata.code, player.userId).subscribe(() => {
+    this._apiService.confirmKiller(this.gameInfo.code, player.userId).subscribe(() => {
       console.log(player);
+
       this.showDeathSelector = false;
-      this.info.alive = false;
+      this.gameInfo.localPlayer.isAlive = false;
     });
   }
 

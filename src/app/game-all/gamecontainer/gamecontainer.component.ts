@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/service/api.service';
-import GameMetadata from 'src/types/GameMetadata';
 import { SocketService } from 'src/app/service/socket.service';
 import { Subscription } from 'rxjs';
+import GameInfo from 'src/types/GameInfo';
 
 @Component({
   selector: 'app-gamecontainer',
@@ -11,8 +11,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./gamecontainer.component.scss']
 })
 export class GamecontainerComponent implements OnInit, OnDestroy {
-  public metadata: GameMetadata = null;
   public subscriptions = new Subscription();
+  public gameInfo: GameInfo = null;
+  public gameId: string;
 
   constructor(
     private _route: ActivatedRoute,
@@ -23,77 +24,84 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._route.params.subscribe(params => {
-      const gameId = params.gameid;
-      console.log(`Found gameId = ${gameId}`);
+      this.gameId = params.gameid;
+      console.log(`Found gameId = ${this.gameId}`);
 
-      // TODO Add subscription for game status changes
-
-      this.initializeGamestate(gameId);
+      this.initializeGamestate();
     });
   }
 
   ngOnDestroy(): void {
-    if (this.metadata) {
-      this._socketService.leaveGame(this.metadata.code);
+    if (this.gameInfo) {
+      this._socketService.leaveGame(this.gameInfo.code);
     }
 
     this.subscriptions.unsubscribe();
   }
 
-  private initializeGamestate(gameId: string) {
-    // TODO Clean up these calls and see if it can be combined into just one
-    this._apiService.getGameMetadata(gameId).subscribe({
-      next: (lobbyData) => {
-        if (lobbyData.status === 'CLOSED') {
-          this._router.navigate(['/']);
-          return;
+  getInfo() {
+    this._apiService.getGameInfo(this.gameId).subscribe(
+      info => {
+        this.gameInfo = info;
+
+        if (this.gameInfo.status === 'INGAME' || this.gameInfo.status === 'PREGAME') {
+          this.gameInfo.gamePlayers.push({ userId: "1234", displayName: "Alcy Meehan", role: "DETECTIVE" });
+          this.gameInfo.gamePlayers.push({ userId: "1234", displayName: "Liam Salamy", role: "INNOCENT" });
+          this.gameInfo.gamePlayers.push({ userId: "1234", displayName: "Jordan Combridge", role: "INNOCENT" });
+          this.gameInfo.gamePlayers.push({ userId: "1234", displayName: "Ben Peel", role: "INNOCENT" });
         }
 
-        console.log(lobbyData);
-        this.metadata = lobbyData;
+        console.log(this.gameInfo);
       },
-      error: (error) => {
+      error => {
         if (error.error.code === "ERR_GAME_NOT_FOUND") {
           this._router.navigate(['/']);
         }
       }
-    });
+    )
+  }
+
+  private initializeGamestate() {
+    this.getInfo();
 
     // Listen for game start
     this.subscriptions.add(
-      this._socketService.onGameStart(gameId).subscribe(state => {
+      this._socketService.onGameStart(this.gameId).subscribe(state => {
         console.log('[GameContainer] Recieved game start event :', state);
-        this.metadata.status = 'INGAME'; 
+        this.gameInfo.status = 'INGAME';
       })
     );
 
     // Listen for game end
     this.subscriptions.add(
-      this._socketService.onGameEnd(gameId).subscribe(state => {
-        console.log('[GameContainer] Recieved game end event :', state);
-        this.metadata.status = 'POSTGAME';
+      this._socketService.onGameEnd(this.gameId).subscribe(state => {
+        console.log('[GameContainer] Recieved game end event :');
+        console.log(state);
+        this.gameInfo.status = 'POSTGAME';
       })
     );
 
     // Listen for game launch
     this.subscriptions.add(
-      this._socketService.onGameLaunch(gameId).subscribe(state => {
+      this._socketService.onGameLaunch(this.gameId).subscribe(state => {
         console.log('[GameContainer] Recieved game launch event :', state);
-        this.metadata.status = 'PREGAME';
+        this.gameInfo.status = 'PREGAME';
+        this.getInfo();
       })
     )
 
     // Listen for postpending
     this.subscriptions.add(
-      this._socketService.onGamePostPending(gameId).subscribe(waitingList => {
+      this._socketService.onGamePostPending(this.gameId).subscribe(waitingList => {
         console.log('[GameContainer] Recieved game postpending event ');
         console.log(waitingList);
 
-        this.metadata.status = 'POSTPENDING';
+        this.gameInfo.status = 'POSTPENDING';
+        this.gameInfo.waitingFor = waitingList;
       })
     )
 
     // Join the game
-    this._socketService.joinGame(gameId);
+    this._socketService.joinGame(this.gameId);
   }
 }

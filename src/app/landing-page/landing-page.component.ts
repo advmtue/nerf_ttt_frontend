@@ -18,8 +18,8 @@ export class LandingPageComponent implements OnInit {
   }
 
   createLobby() {
-    this._apiService.createLobby().subscribe(lobbyMetadata => {
-      this._router.navigate(['/game', lobbyMetadata.code]);
+    this._apiService.createLobby().subscribe(gameId => {
+      this._router.navigate(['/game', gameId.code]);
     })
   }
 }

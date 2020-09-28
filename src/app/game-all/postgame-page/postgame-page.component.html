@@ -1,1 +1,32 @@
-<p>postgame-page works!</p>
+<div class="container winning-team">
+    <div *ngIf="gameInfo.winningTeam === 'TRAITOR' then traitorVictory; else innocentVictory"></div>
+    <ng-template #traitorVictory><h1>Traitor Victory</h1></ng-template>
+    <ng-template #innocentVictory><h1>Innocent Victory</h1></ng-template>
+</div>
+
+<div class="kill-log">
+    <div *ngIf="gameInfo.kills.length === 0 then noKills; else showKills"></div>
+    <ng-template #noKills>No kills occurred this game.</ng-template>
+    <ng-template #showKills>
+        <div class="kill" *ngFor="let kill of gameInfo.kills">
+            <div class="time">
+                <p>{{ kill.killTime }}</p>
+            </div>
+            <div class="info">
+                <div class="killer">
+                    <p>{{ kill.killerName }} <span [class]='kill.killerRole'>●</span></p>
+                </div>
+                <div class="icon">
+                    <img src="/assets/img/nerfgun.png" alt="">
+                </div>
+                <div class="victim">
+                    <p><span [class]='kill.victimRole'>●</span> {{ kill.victimName }}</p>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<div class="stick-to-bottom">
+    <div class="button green-bg">Return to Lobby</div>
+</div>

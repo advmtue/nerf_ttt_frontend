@@ -3,7 +3,7 @@
 <div class="killer-info container">
     <h3>Killed By</h3>
     <div *ngIf="selectedPlayer; else noPlayer">
-        <h2>{{ selectedPlayer.name }}</h2>
+        <h2>{{ selectedPlayer.displayName }}</h2>
         <div class="button green-bg" (click)="confirm()">Confirm</div>
     </div>
     <ng-template #noPlayer>
@@ -19,6 +19,6 @@
     </div>
     <div *ngFor="let player of players" class="player-tile container noselect" (click)="select(player)"
         [class.selected]="selectedPlayer === player">
-        <p>{{ player.name }}</p>
+        <p>{{ player.displayName }}</p>
     </div>
 </div>

@@ -1,11 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import GameMetadata from 'src/types/GameMetadata';
-import GamePlayer from 'src/types/GamePlayer';
+import { GamePlayer, GamePlayerBasic } from 'src/types/Player';
 import Profile from 'src/types/UserProfile';
 import { pluck } from 'rxjs/operators';
-import GameInfo, { GamePlayerBasic } from 'src/types/GameInfo';
+import GameInfo from 'src/types/GameInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -33,20 +32,16 @@ export class ApiService {
     return this.httpClient.post<{ success: boolean }>(`${this.apiUrl}/user/@register`, { name: displayName });
   }
 
-  createLobby(): Observable<GameMetadata> {
-    return this.httpClient.post<GameMetadata>(`${this.apiUrl}/game`, {});
+  createLobby(): Observable<{code: string}> {
+    return this.httpClient.post<{code: string}>(`${this.apiUrl}/game`, {});
   }
 
-  getGameMetadata(lobbyId: string): Observable<GameMetadata> {
-    return this.httpClient.get<GameMetadata>(`${this.apiUrl}/game/${lobbyId}`);
+  getGameInfo(lobbyId: string): Observable<GameInfo> {
+    return this.httpClient.get<GameInfo>(`${this.apiUrl}/game/${lobbyId}`);
   }
 
   closeLobby(lobbyId: string): Observable<{ lobbyId: string }> {
     return this.httpClient.delete<{ lobbyId: string }>(`${this.apiUrl}/game/${lobbyId}`);
-  }
-
-  getGameInfo(gameId: string): Observable<GameInfo> {
-    return this.httpClient.get<GameInfo>(`${this.apiUrl}/game/${gameId}/info`);
   }
 
   getLobbyPlayers(lobbyId: string): Observable<GamePlayer[]> {

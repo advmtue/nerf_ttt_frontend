@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import GameMetadata from 'src/types/GameMetadata';
+import GameInfo from 'src/types/GameInfo';
 
 @Component({
   selector: 'app-game-status-view',
@@ -7,7 +7,7 @@ import GameMetadata from 'src/types/GameMetadata';
   styleUrls: ['./game-status-view.component.scss']
 })
 export class GameStatusViewComponent implements OnInit {
-  @Input() metadata: GameMetadata;
+  @Input() gameInfo: GameInfo;
 
   constructor() { }
 

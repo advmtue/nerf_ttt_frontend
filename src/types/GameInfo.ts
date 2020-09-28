@@ -1,15 +1,23 @@
+import GameKill from './GameKill';
+import { GamePlayer, GamePlayerBasic, LobbyPlayer } from './Player';
+
 export default interface GameInfo {
-  role: string;
-  analyzerCode: string;
-  players: GamePlayerBasic[];
-  alive: boolean;
+  code: string;
+  ownerId: string;
+  ownerName: string;
+  status: string;
 
-  scansRemaining?: number;
-  lastScanTime?: number;
-}
+  dateCreated: string;
+  dateLaunched: string;
+  dateStarted: string;
+  dateEnded: string;
 
-export interface GamePlayerBasic {
-  userId: string;
-  name: string;
-  role: string;
+  nextGameCode: string;
+  winningTeam: string;
+
+  localPlayer: GamePlayer;
+  lobbyPlayers: LobbyPlayer[];
+  gamePlayers: GamePlayerBasic[];
+  waitingFor: GamePlayerBasic[];
+  kills: GameKill[];
 }

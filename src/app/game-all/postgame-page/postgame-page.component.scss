@@ -1,0 +1,50 @@
+@import '../../../styles.scss';
+
+.winning-team {
+    padding: 0.5em 0;
+}
+
+.kill-log {
+    .kill {
+        padding: 0.5em 0;
+        background-color: $color-darkest;
+
+        .time {
+            color: $color-text-body;
+            text-align: center;
+            margin-bottom: 0.3em;
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-around;
+
+            .killer {
+                flex-basis: 50%;
+                text-align: right;
+                margin-right: 1em;
+
+                font-size: 0.8em;
+            }
+
+            .victim {
+                flex-basis: 50%;
+                margin-left: 1em;
+
+                font-size: 0.8em;
+            }
+
+            img {
+                width: 2em;
+            }
+
+            .INNOCENT { color: $color-green-deep; }
+            .TRAITOR { color: $color-red-deep; }
+            .DETECTIVE { color: $color-blue-deep; }
+        }
+    }
+}
+
+.stick-to-bottom {
+    padding: 1em;
+}

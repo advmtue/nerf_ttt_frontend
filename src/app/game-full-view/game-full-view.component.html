@@ -1,15 +1,15 @@
 
-<app-game-status-view [metadata]="metadata"></app-game-status-view>
+<app-game-status-view [gameInfo]="gameInfo"></app-game-status-view>
 <div *ngIf="shouldShow then roleInfo"></div>
 <ng-template #roleInfo>
 
     <div class="roleinfo">
         <div class="role container">
-            <div class="role-colour" [class]="info.role"></div>
-            <h2>{{ info.role }}</h2>
+            <div class="role-colour" [class]="gameInfo.localPlayer.role"></div>
+            <h2>{{ gameInfo.localPlayer.role }}</h2>
         </div>
         <div class="analyzer-code container">
-            <h2>{{ info.analyzerCode }}</h2>
+            <h2>{{ gameInfo.localPlayer.analyzerCode }}</h2>
         </div>
     </div>
 
@@ -19,7 +19,7 @@
         <div class="players container">
             <h3>Known Roles</h3>
             <div class="playertile" *ngFor="let player of knownRoles()">
-                <p><span [class]="player.role">●</span> {{ player.name }}</p>
+                <p><span [class]="player.role">●</span> {{ player.displayName }}</p>
             </div>
         </div>
     </div>

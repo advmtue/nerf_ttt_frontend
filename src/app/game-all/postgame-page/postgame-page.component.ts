@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import GameInfo from 'src/types/GameInfo';
-import GameMetadata from 'src/types/GameMetadata';
 
 @Component({
   selector: 'app-postgame-page',
@@ -8,12 +7,38 @@ import GameMetadata from 'src/types/GameMetadata';
   styleUrls: ['./postgame-page.component.scss']
 })
 export class PostgamePageComponent implements OnInit {
-  @Input() info: GameInfo;
-  @Input() metadata: GameMetadata;
+  @Input() gameInfo: GameInfo;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.gameInfo.kills.forEach(k => k.killTime = (parseInt(k.killTime) - parseInt(this.gameInfo.dateStarted)).toString());
+
+    this.gameInfo.kills.push({
+      killerId: "asdf",
+      killerName: "Liam Salamy",
+      killerRole: "TRAITOR",
+      killTime: "2000",
+      victimName: "Taylor Rawson",
+      victimId: "ASDF",
+      victimRole: "INNOCENT"
+    });
+
+    this.configureKillTimeStrings();
+    console.log(this.gameInfo);
   }
 
+  private secondsToMinutesSeconds(totalSeconds: number): string {
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60; 
+
+    return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`
+  }
+
+  configureKillTimeStrings()
+  {
+    this.gameInfo.kills.forEach(kill => {
+      kill.killTime = this.secondsToMinutesSeconds(parseInt(kill.killTime) / 1000);
+    });
+  }
 }

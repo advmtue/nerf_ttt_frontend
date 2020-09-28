@@ -1,4 +1,4 @@
-<app-game-status-view [metadata]='metadata'></app-game-status-view>
+<app-game-status-view [gameInfo]='gameInfo'></app-game-status-view>
 
 <div *ngIf="localPlayerIsAdmin()" class="container red-bg pad">
 <div class="heading-with-image">
@@ -10,13 +10,13 @@
 
 <div class="playerinfo">
 <img class="white-svg" src="/assets/img/group.svg">
-<h3>{{ lobbyPlayers.length }} Player{{ lobbyPlayers.length === 1 ? '' : 's' }}</h3>
+<h3>{{ gameInfo.lobbyPlayers.length }} Player{{ gameInfo.lobbyPlayers.length === 1 ? '' : 's' }}</h3>
 </div>
 
 <div class="players-and-options">
 <div class="players">
-    <div *ngFor="let player of lobbyPlayers" class="tile">
-    <div class="status" [class.ready]="player.ready"></div>
+    <div *ngFor="let player of gameInfo.lobbyPlayers" class="tile">
+    <div class="status" [class.ready]="player.isReady"></div>
     <p>{{ player.displayName }}</p>
     </div>
 </div>
