@@ -16,6 +16,7 @@ export class UserService {
   constructor(private tokenService: TokenService, private apiService: ApiService) {
     // Listen for changes in access token
     this.tokenService.tokenStatus.subscribe(this.onTokenStatusChange.bind(this));
+    this.tokenService.tokenWarning.subscribe(this.accessTokenWarning.bind(this));
   }
 
   private onTokenStatusChange(newStatus: string) {
@@ -34,22 +35,29 @@ export class UserService {
     }
   }
 
+  private accessTokenWarning() {
+    console.log('[UserService] Got access token warning.');
+    this.getNewAccessToken();
+  }
+
   /**
    * Triggered when a refresh token is acquired by the token service.
    * Requests a new access token from the API.
    */
   private onGetRefreshToken() {
     console.log('[UserService] Got refresh token');
-    console.log('[UserService] Requesting new access token');
-
-    this.apiService.getAccessToken(this.tokenService.refreshToken).subscribe((response: { accessToken: string }) => {
-      this.tokenService.accessToken = response.accessToken;
-    });
+    this.getNewAccessToken();
   }
 
+  /**
+   * Request a new access token from the API using the refresh token.
+   */
   public getNewAccessToken() {
+    console.log('[UserService] Requesting new access token');
+
     this.apiService.getAccessToken(this.tokenService.refreshToken).subscribe(response => {
-      this.tokenService.accessToken = response.accessToken;
+      this.tokenService.accessToken = response.token;
+      this.tokenService.accessTokenTimeToLive = response.expires_in;
     })
   }
 

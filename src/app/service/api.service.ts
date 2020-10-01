@@ -5,6 +5,7 @@ import { GamePlayer, GamePlayerBasic } from 'src/types/Player';
 import Profile from 'src/types/UserProfile';
 import { pluck } from 'rxjs/operators';
 import GameInfo from 'src/types/GameInfo';
+import { AccessTokenResponse } from 'src/types/TokenResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,8 @@ export class ApiService {
     return this.httpClient.get<{ refreshToken: string }>(`${this.apiUrl}/auth/discord?code=${code}`);
   }
 
-  getAccessToken(refreshToken: string): Observable<{ accessToken: string }> {
-    return this.httpClient.post<{ accessToken: string }>(`${this.apiUrl}/auth/token`, { refreshToken: refreshToken });
+  getAccessToken(refreshToken: string): Observable<AccessTokenResponse> {
+    return this.httpClient.post<AccessTokenResponse>(`${this.apiUrl}/auth/token`, { refreshToken: refreshToken });
   }
 
   getUserMe(): Observable<Profile> {
