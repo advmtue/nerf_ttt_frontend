@@ -14,26 +14,17 @@ import { GamePlayerBasic } from 'src/types/Player';
 })
 export class PostpendingPageComponent implements OnInit {
   @Input() gameInfo: GameInfo;
-  
-  subscriptions: Subscription = new Subscription();
-  info: GameInfo;
 
   constructor(
     private _apiService: ApiService,
-    private _socket: SocketService,
     private _user: UserService
   ) { }
 
   ngOnInit(): void {
-    this.subscriptions.add(
-      this._socket.onPlayerConfirmKiller(this.gameInfo.code).subscribe(playerId => {
-        this.gameInfo.waitingFor = this.gameInfo.waitingFor.filter(pl => pl.userId !== playerId);
-      })
-    )
   }
 
   public waitingForLocalPlayer(): boolean {
-    return this.gameInfo.waitingFor.find(p => p.userId === this._user.id) !== null;
+    return this.gameInfo.waitingFor.find(p => p.userId === this._user.id) !== undefined;
   }
 
   public confirmKill(killer: GamePlayerBasic) {
@@ -41,6 +32,6 @@ export class PostpendingPageComponent implements OnInit {
   }
 
   public gamePlayersFiltered() {
-    return this.gameInfo.waitingFor.filter(p => p.userId !== this._user.id);
+    return this.gameInfo.gamePlayers.filter(p => p.userId !== this._user.id);
   }
 }

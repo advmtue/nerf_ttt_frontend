@@ -14,16 +14,6 @@ export class PostgamePageComponent implements OnInit {
   ngOnInit(): void {
     this.gameInfo.kills.forEach(k => k.killTime = (parseInt(k.killTime) - parseInt(this.gameInfo.dateStarted)).toString());
 
-    this.gameInfo.kills.push({
-      killerId: "asdf",
-      killerName: "Liam Salamy",
-      killerRole: "TRAITOR",
-      killTime: "2000",
-      victimName: "Taylor Rawson",
-      victimId: "ASDF",
-      victimRole: "INNOCENT"
-    });
-
     this.configureKillTimeStrings();
     console.log(this.gameInfo);
   }
@@ -38,7 +28,7 @@ export class PostgamePageComponent implements OnInit {
   configureKillTimeStrings()
   {
     this.gameInfo.kills.forEach(kill => {
-      kill.killTime = this.secondsToMinutesSeconds(parseInt(kill.killTime) / 1000);
+      kill.killTime = this.secondsToMinutesSeconds(Math.floor(parseInt(kill.killTime) / 1000));
     });
   }
 }

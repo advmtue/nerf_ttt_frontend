@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { GamePlayer, GamePlayerBasic } from 'src/types/Player';
 import * as socketio from 'socket.io-client';
 import SocketMessage from 'src/types/SocketMessage';
+import GameKill from 'src/types/GameKill';
 
 @Injectable({
   providedIn: 'root'
@@ -180,9 +181,9 @@ export class SocketService {
    * @param lobbyId Lobby ID
    * @returns An observable emitting a gameId
    */
-  public onGameEnd(gameId: string): Observable<string> {
+  public onGameEnd(gameId: string): Observable<{winningTeam: string, kills: GameKill[]}> {
     return new Observable(sub => {
-      this._io.on('gameEnd', (data: SocketMessage<string>) => { 
+      this._io.on('gameEnd', (data: SocketMessage<{winningTeam: string, kills: GameKill[]}>) => { 
         console.log(`[SOCKET] Got gameEnd`);
         if (data.scopeId === gameId) {
           sub.next(data.payload);

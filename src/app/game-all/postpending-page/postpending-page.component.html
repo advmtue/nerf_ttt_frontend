@@ -3,8 +3,10 @@
 <div *ngIf="waitingForLocalPlayer() then killSelector; else waitingList"></div>
 
 <ng-template #waitingList>
-    <h2>Waiting on players</h2>
-    <div class="player container" *ngFor="let player of gameInfo.waitingFor"><p>{{ player.displayName }}</p></div>
+    <div class="waiting-list">
+        <h2>Waiting on players</h2>
+        <div class="player container" *ngFor="let player of gameInfo.waitingFor"><p>{{ player.displayName }}</p></div>
+    </div>
 </ng-template>
 
 <ng-template #killSelector>

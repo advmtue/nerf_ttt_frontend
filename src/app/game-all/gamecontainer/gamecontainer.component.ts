@@ -45,10 +45,12 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
         this.gameInfo = info;
 
         if (this.gameInfo.status === 'INGAME' || this.gameInfo.status === 'PREGAME') {
+          /*
           this.gameInfo.gamePlayers.push({ userId: "1234", displayName: "Alcy Meehan", role: "DETECTIVE" });
           this.gameInfo.gamePlayers.push({ userId: "1234", displayName: "Liam Salamy", role: "INNOCENT" });
           this.gameInfo.gamePlayers.push({ userId: "1234", displayName: "Jordan Combridge", role: "INNOCENT" });
           this.gameInfo.gamePlayers.push({ userId: "1234", displayName: "Ben Peel", role: "INNOCENT" });
+          */
         }
 
         console.log(this.gameInfo);
@@ -69,14 +71,17 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
       this._socketService.onGameStart(this.gameId).subscribe(state => {
         console.log('[GameContainer] Recieved game start event :', state);
         this.gameInfo.status = 'INGAME';
+        this.gameInfo.dateStarted = state;
       })
     );
 
     // Listen for game end
     this.subscriptions.add(
       this._socketService.onGameEnd(this.gameId).subscribe(state => {
-        console.log('[GameContainer] Recieved game end event :');
+        console.log('[GameContainer] Recieved game end event');
         console.log(state);
+        this.gameInfo.kills = state.kills;
+        this.gameInfo.winningTeam = state.winningTeam;
         this.gameInfo.status = 'POSTGAME';
       })
     );
@@ -98,6 +103,14 @@ export class GamecontainerComponent implements OnInit, OnDestroy {
 
         this.gameInfo.status = 'POSTPENDING';
         this.gameInfo.waitingFor = waitingList;
+      })
+    )
+
+    // Player confirms their killer
+    this.subscriptions.add(
+      this._socketService.onPlayerConfirmKiller(this.gameId).subscribe(playerId => {
+        console.log('[GameContainer] Recieved player confirmKill event: ', playerId);
+        this.gameInfo.waitingFor = this.gameInfo.waitingFor.filter(pl => pl.userId !== playerId);
       })
     )
 
